@@ -13,20 +13,12 @@ function formatUrl(path) {
 }
 
 export default class ApiClient {
-  constructor(req) {
+  constructor() {
     methods.forEach((method) =>
       this[method] = (path, { params, data } = {}) => new Promise((resolve, reject) => {
         const request = superagent[method](formatUrl(path));
         if (params) {
           request.query(params);
-        }
-
-        if (__SERVER__) {
-          if (req.session.token) {
-            request.set('Authorization', req.session.token);
-          } else {
-            request.set('Authorization', process.env.CLIENT_SECRET);
-          }
         }
 
         if (data) {

@@ -19,8 +19,6 @@ import request from 'superagent';
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
 
-app.use(Express.static(path.join(__dirname, '..', 'static')));
-
 routes.forEach((route) => {
     try {
       if (route.middleware) {
@@ -35,6 +33,8 @@ routes.forEach((route) => {
       console.error('Error at route ', route, e);
     }
   });
+
+app.use(Express.static(path.join(__dirname, '..', 'static')));
 
 if (config.port) {
   server.listen(config.port, (err) => {
