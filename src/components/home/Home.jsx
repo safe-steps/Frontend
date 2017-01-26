@@ -19,15 +19,16 @@ export default class Home extends Component {
   }
   render() {
     return (
-      <div>
-        <h1 className={s.someClass}>This is a sample Home Page.</h1>
-        <ul>
+      <div className={s.container}>
+        <h1 className={s.title + ' ' + s.textCenter}>Safe Steps</h1>
+        <p className={s.lead + ' ' + s.textCenter}>Scenarios to demonstrate how to handle cases of domestic violence</p>
+        <div className={s.row}>
           {this.props.scenarios.map((scenario) => {
             return (
-              <li key={scenario._id}><Link to={'/scenarios/' + scenario._id}>{scenario.title}</Link></li>
+              <div className={s.card + ' ' + s['six'] + ' ' + s['columns'] + ' ' + s['offset-by-three']} key={scenario._id}><Link to={'/scenarios/' + scenario._id}>{scenario.title}</Link></div>
             );
           })}
-        </ul>
+        </div>
       </div>
     );
   }
