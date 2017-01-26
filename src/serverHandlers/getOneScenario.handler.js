@@ -6,12 +6,12 @@ export default function(req, res) {
 		steps: [
 			{//0
 				type: "narrator",
-				next: 1,
+				goTo: 1,
 				text: "Welcome to the Test Scenario! Please press next."
 			},
 			{//1
 				type: "dialog",
-				next: 2,
+				goTo: 2,
 				text: "ayyyyy"
 			},
 			{//2

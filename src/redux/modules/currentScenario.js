@@ -1,8 +1,8 @@
 const FETCH = 'scenarioList/FETCH';
-const FETCH_SUCCESS = 'scenarioList/FETCH_SUCCESS';
-const FETCH_FAIL = 'scenarioList/FETCH_FAIL';
-const GO_TO_NEXT = 'scenarioList/GO_TO_NEXT';
-const CHOOSE_CHOICE = 'scenarioList/CHOOSE_CHOICE';
+const FETCH_SUCCESS = 'currentScenario/FETCH_SUCCESS';
+const FETCH_FAIL = 'currentScenario/FETCH_FAIL';
+const GO_TO_NEXT = 'currentScenario/GO_TO_NEXT';
+const CHOOSE_CHOICE = 'currentScenario/CHOOSE_CHOICE';
 
 import clone from 'lodash';
 
@@ -21,7 +21,7 @@ export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case FETCH:
       return {
-        ...state,
+        ...initialState,
         loading: true,
       };
     case FETCH_SUCCESS:
@@ -29,7 +29,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         loading: false,
         currentScenario: action.result,
-        currentStep: state.steps[0],
+        currentStep: action.result.steps[0],
         currentIndex: 0
       };
     case FETCH_FAIL:
@@ -38,24 +38,26 @@ export default function reducer(state = initialState, action = {}) {
         loading: false
       };
     case GO_TO_NEXT:
+      console.log(state.currentStep)
       return {
         ...state,
-        currentStep: state.steps[state.currentStep.next]
+        currentStep: state.currentScenario.steps[state.currentStep.goTo],
+        isDone: !state.currentStep.goTo
       }
     case CHOOSE_CHOICE:
       return {
         ...state,
         doneWell: state.currentStep.choices[action.index].doneWell ? state.doneWell.concat([state.currentStep.choices[action.index].doneWell]) : state.doneWell,
         canImprove: state.currentStep.choices[action.index].canImprove ? state.canImprove.concat([state.currentStep.choices[action.index].canImprove]) : state.canImprove,
-        currentStep: state.currentStep.choices[action.index].goTo ? state.canImprove.concat([state.currentStep.choices[action.index].goTo]) : null,
-        isDone: state.currentStep.choices[action.index].goTo ? false : true
+        currentStep: state.currentStep.choices[action.index].goTo ? state.currentScenario.steps[state.currentStep.choices[action.index].goTo] : null,
+        isDone: !state.currentStep.choices[action.index].goTo
       }
     default:
       return state;
   }
 }
 
-export function getScenarios(id) {
+export function getScenario(id) {
   return {
     types: [FETCH, FETCH_SUCCESS, FETCH_FAIL],
     promise: (client) => client.get('/scenario/' + id),

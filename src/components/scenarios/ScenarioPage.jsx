@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import { asyncConnect } from 'redux-async-connect';
 import {connect} from 'react-redux';
-// import {goToNext, chooseChoice, getScenario} from 'redux/modules/currentScenario.js'
+import {goToNext, chooseChoice, getScenario} from 'redux/modules/currentScenario.js'
 
 @asyncConnect([{
-  promise: ({store: {dispatch}}) => {
+  promise: ({store: {dispatch}, params: {id}}) => {
     return dispatch(getScenario(id));
   }
 }])
@@ -19,7 +19,7 @@ export default class ScenarioPage extends Component {
     canImprove: PropTypes.array,
     currentStep: PropTypes.shape({
       type: PropTypes.string,
-      next: PropTypes.number,
+      goTo: PropTypes.number,
       text: PropTypes.string,
       choices: PropTypes.array
     }),
@@ -37,12 +37,16 @@ export default class ScenarioPage extends Component {
     } else if (this.props.isDone) {
       return (
         <div>
+          <h2>Things you did well</h2>
           <ul>
             {this.props.doneWell.map((statement) => {
               return (
                 <li>{statement}</li>
               );
             })}
+          </ul>
+          <h2>Things on which you can improve</h2>
+          <ul>
             {this.props.canImprove.map((statement) => {
               return (
                 <li>{statement}</li>
@@ -51,6 +55,11 @@ export default class ScenarioPage extends Component {
           </ul>
         </div>
       );
+    } else if (!this.props.currentStep) {
+      console.log('hello');
+      return (
+        <div></div>
+      )
     } else if (this.props.currentStep.type === 'narrator' || this.props.currentStep.type === 'dialog') {
       return (
         <div>
