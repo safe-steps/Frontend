@@ -16,7 +16,6 @@ import {Link} from 'react-router';
 export default class Home extends Component {
   static propTypes = {
     scenarios: PropTypes.array
-
   }
   render() {
     return (
