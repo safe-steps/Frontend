@@ -3,9 +3,46 @@
 
 @import "variables";
 
+// basics
+
 body {
   background-color: $grey-lightest;
 }
+
+img {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+// typography
+
+.lead {
+	margin-top: 0;
+	margin-bottom: 2rem;
+	font-size: 1.8rem;
+	line-height: 1.5;
+}
+
+h2.lead {
+	font-weight: 300;
+}
+
+h5 {
+	font-weight: 600;
+}
+
+.title {
+	font-weight: 600;
+	margin-bottom: 0;
+	margin-top: 2rem;
+}
+
+.textCenter {
+	text-align: center;
+}
+
+// layout
 
 .container {
 	background-color: $white;
@@ -18,22 +55,5 @@ body {
 	background-color: $grey-lightest;
 	border: 1px solid #E0E0E0;
 	box-shadow: 0 2px 3px 0 rgba(0,0,0,0.05);
-	margin-bottom: 1rem;
-}
-
-.textCenter {
-	text-align: center;
-}
-
-.title {
-	font-weight: 600;
-	margin-bottom: 0;
-}
-
-.lead {
-	margin-top: 0;
 	margin-bottom: 2rem;
-	font-size: 1.8rem;
-	line-height: 1.5;
-	font-weight: 300;
 }
