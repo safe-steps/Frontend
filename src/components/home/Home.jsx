@@ -25,7 +25,7 @@ export default class Home extends Component {
         <div className={s.row}>
           {this.props.scenarios.map((scenario) => {
             return (
-              <div className={s.card + ' ' + s['six'] + ' ' + s['columns'] + ' ' + s['offset-by-three']} key={scenario._id}><Link to={'/scenarios/' + scenario._id}>{scenario.title}</Link></div>
+              <div className={s.card + ' ' + s.six + ' ' + s.columns + ' ' + s['offset-by-three']} key={scenario._id}><Link to={'/scenarios/' + scenario._id}>{scenario.title}</Link></div>
             );
           })}
         </div>

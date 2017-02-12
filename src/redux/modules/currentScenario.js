@@ -4,7 +4,6 @@ const FETCH_FAIL = 'currentScenario/FETCH_FAIL';
 const GO_TO_NEXT = 'currentScenario/GO_TO_NEXT';
 const CHOOSE_CHOICE = 'currentScenario/CHOOSE_CHOICE';
 
-import clone from 'lodash';
 
 const initialState = {
   loading: false,
@@ -38,12 +37,11 @@ export default function reducer(state = initialState, action = {}) {
         loading: false
       };
     case GO_TO_NEXT:
-      console.log(state.currentStep)
       return {
         ...state,
         currentStep: state.currentScenario.steps[state.currentStep.goTo],
         isDone: !state.currentStep.goTo
-      }
+      };
     case CHOOSE_CHOICE:
       return {
         ...state,
@@ -51,7 +49,7 @@ export default function reducer(state = initialState, action = {}) {
         canImprove: state.currentStep.choices[action.index].canImprove ? state.canImprove.concat([state.currentStep.choices[action.index].canImprove]) : state.canImprove,
         currentStep: state.currentStep.choices[action.index].goTo ? state.currentScenario.steps[state.currentStep.choices[action.index].goTo] : null,
         isDone: !state.currentStep.choices[action.index].goTo
-      }
+      };
     default:
       return state;
   }
