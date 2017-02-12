@@ -5,12 +5,14 @@ export default function(req, res) {
 		description: "This Scenario is only for testing",
 		steps: [
 			{//0
-				type: "narrator",
+				type: "dialog",
+				speaker: "narrator",
 				goTo: 1,
 				text: "Welcome to the Test Scenario! Please press next."
 			},
 			{//1
 				type: "dialog",
+				speaker: "doctor",
 				goTo: 2,
 				text: "ayyyyy"
 			},
@@ -33,11 +35,13 @@ export default function(req, res) {
 			},
 			{//3
 				type: "dialog",
+				speaker: "doctor",
 				goTo: 5,
 				text: "Bird bird"
 			},
 			{//4
 				type: "dialog",
+				speaker: "doctor",
 				goTo: 6,
 				text: "What's the good word?"
 			},
@@ -77,7 +81,8 @@ export default function(req, res) {
 				]
 			},
 			{//7
-				type: "narrator",
+				type: "dialog",
+				speaker: "narrator",
 				goTo: null,
 				text: "Thank you for completing the Test Scenario!"
 			}

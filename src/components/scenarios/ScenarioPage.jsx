@@ -60,9 +60,10 @@ export default class ScenarioPage extends Component {
       return (
         <div></div>
       )
-    } else if (this.props.currentStep.type === 'narrator' || this.props.currentStep.type === 'dialog') {
+    } else if (this.props.currentStep.type === 'dialog') {
       return (
         <div>
+          <strong>{this.props.currentStep.speaker}: </strong>
           {this.props.currentStep.text}
           <button type="button" onClick={this.props.goToNext}>Next</button>
         </div>
