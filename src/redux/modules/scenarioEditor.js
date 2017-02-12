@@ -16,53 +16,54 @@ const initialState = {
 };
 
 export default function reducer(state = initialState, action = {}) {
+  let newState;
   switch (action.type) {
     case ADD_STEP_TYPE:
       newState = clone(state);
-      if (stepType === 'dialog') {
+      if (action.stepType === 'dialog') {
         newState.steps.splice(action.index + 1, 0, {
           type: 'dialog',
           speaker: 'narrator',
           text: ''
         });
       }
-      if (stepType === 'choice') {
+      if (action.stepType === 'choice') {
         newState.steps.splice(action.index + 1, 0, {
           type: 'choice',
           choices: [{
-            text: '', 
-            canImprove: '', 
+            text: '',
+            canImprove: '',
             doneWell: ''
           }]
         });
       }
       newState.steps.forEach((step) => {
         if (step.type === 'dialog' && step.goTo > action.index) {
-          step.goTo++
-        } else if (step.type === 'choice'){
+          step.goTo++;
+        } else if (step.type === 'choice') {
           step.choices.forEach((choice) => {
             if (choice.goTo > action.index) {
-              choice.goTo++
+              choice.goTo++;
             }
-          })
+          });
         }
-      })
+      });
       return newState;
     case DELETE_STEP:
       newState = clone(state);
       state.steps.splice(action.index, 1);
       newState.steps.forEach((step) => {
         if (step.type === 'dialog' && step.goTo > action.index) {
-          step.goTo--
-        } else if (step.type === 'choice'){
+          step.goTo--;
+        } else if (step.type === 'choice') {
           step.choices.forEach((choice) => {
             if (choice.goTo > action.index) {
-              choice.goTo--
+              choice.goTo--;
             }
-          })
+          });
         }
-      })
-      return newState
+      });
+      return newState;
     case DUPLICATE_STEP:
       newState = clone(state);
       newState.steps.splice(action.index + 1, 0, {
@@ -70,65 +71,67 @@ export default function reducer(state = initialState, action = {}) {
       });
       newState.steps.forEach((step) => {
         if (step.type === 'dialog' && step.goTo > action.index) {
-          step.goTo++
-        } else if (step.type === 'choice'){
+          step.goTo++;
+        } else if (step.type === 'choice') {
           step.choices.forEach((choice) => {
             if (choice.goTo > action.index) {
-              choice.goTo++
+              choice.goTo++;
             }
-          })
+          });
         }
-      })
+      });
       return newState;
     case MOVE_STEP:
       newState = clone(state);
-      if (upDown === 'up') {
-        let temp = newState.steps[action.index]
-        newState.steps[action.index] = newState.steps[action.index - 1]
-        newState.steps[action.index - 1] = temp
+      if (action.upDown === 'up') {
+        const temp = newState.steps[action.index];
+        newState.steps[action.index] = newState.steps[action.index - 1];
+        newState.steps[action.index - 1] = temp;
         newState.steps.forEach((step) => {
-        if (step.type === 'dialog' && step.goTo === action.index) {
-          step.goTo--
-        } else if (step.type === 'dialog' && step.goTo === action.index - 1) {
-          step.goTo++
-        } else if (step.type === 'choice'){
-          step.choices.forEach((choice) => {
-            if (choice.goTo === action.index) {
-              choice.goTo--
-            } else if (choice.goTo === action.index - 1) {
-              choice.goTo++
-            }
-          })
-        } 
+          if (step.type === 'dialog' && step.goTo === action.index) {
+            step.goTo--;
+          } else if (step.type === 'dialog' && step.goTo === action.index - 1) {
+            step.goTo++;
+          } else if (step.type === 'choice') {
+            step.choices.forEach((choice) => {
+              if (choice.goTo === action.index) {
+                choice.goTo--;
+              } else if (choice.goTo === action.index - 1) {
+                choice.goTo++;
+              }
+            });
+          }
+        });
       }
-      if (upDown === 'down') {
-        let temp = newState.steps[action.index]
-        newState.steps[action.index] = newState.steps[action.index + 1]
-        newState.steps[action.index + 1] = temp
+      if (action.upDown === 'down') {
+        const temp = newState.steps[action.index];
+        newState.steps[action.index] = newState.steps[action.index + 1];
+        newState.steps[action.index + 1] = temp;
         newState.steps.forEach((step) => {
-        if (step.type === 'dialog' && step.goTo === action.index) {
-          step.goTo++
-        } else if (step.type === 'dialog' && step.goTo === action.index + 1) {
-          step.goTo--
-        } else if (step.type === 'choice'){
-          step.choices.forEach((choice) => {
-            if (choice.goTo === action.index) {
-              choice.goTo++
-            } else if (choice.goTo === action.index + 1) {
-              choice.goTo--
-            }
-          })
-        } 
+          if (step.type === 'dialog' && step.goTo === action.index) {
+            step.goTo++;
+          } else if (step.type === 'dialog' && step.goTo === action.index + 1) {
+            step.goTo--;
+          } else if (step.type === 'choice') {
+            step.choices.forEach((choice) => {
+              if (choice.goTo === action.index) {
+                choice.goTo++;
+              } else if (choice.goTo === action.index + 1) {
+                choice.goTo--;
+              }
+            });
+          }
+        });
       }
       return newState;
     case UPDATE_STEP:
       newState = clone(state);
-      newState.steps[action.index] = action.obj
-      return newState
+      newState.steps[action.index] = action.obj;
+      return newState;
     case SELECT_STEP:
       newState = clone(state);
-      newState.selectedStep = action.index
-      return newState
+      newState.selectedStep = action.index;
+      return newState;
     default:
       return state;
   }
@@ -142,7 +145,7 @@ export function add(index, stepType) {
   };
 }
 
-export function delete(index) {
+export function remove(index) {
   return {
     type: DELETE_STEP,
     index
@@ -178,7 +181,3 @@ export function selectStep(index) {
     index
   };
 }
-
-
-
-
