@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { asyncConnect } from 'redux-async-connect';
 import {connect} from 'react-redux';
-import {goToNext, chooseChoice, getScenario} from 'redux/modules/currentScenario.js'
+import {goToNext, chooseChoice, getScenario} from 'redux/modules/currentScenario.js';
 
 @asyncConnect([{
   promise: ({store: {dispatch}, params: {id}}) => {
@@ -21,7 +21,8 @@ export default class ScenarioPage extends Component {
       type: PropTypes.string,
       goTo: PropTypes.number,
       text: PropTypes.string,
-      choices: PropTypes.array
+      choices: PropTypes.array,
+      speaker: PropTypes.string
     }),
     goToNext: PropTypes.func,
     chooseChoice: PropTypes.func
@@ -56,10 +57,9 @@ export default class ScenarioPage extends Component {
         </div>
       );
     } else if (!this.props.currentStep) {
-      console.log('hello');
       return (
         <div></div>
-      )
+      );
     } else if (this.props.currentStep.type === 'dialog') {
       return (
         <div>
