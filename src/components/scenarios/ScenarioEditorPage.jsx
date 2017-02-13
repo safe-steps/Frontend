@@ -39,35 +39,32 @@ export default class ScenarioPage extends Component {
       })
     }
   }
-  choiceChanged = (e) => {
+  choiceChanged = (e, index) => {
     if(e.target.name === "responce_input"){
-      this.props.updateStep(this.props.selectedStep, {
-        ...this.props.steps[this.props.selectedStep],
-        choices[this.props.selectedStep].text: e.target.value
-      })
+      this.props.steps[this.props.selectedStep].choices[index].text = e.target.value;
+      this.props.updateStep(this.props.selectedStep, this.props.steps[this.props.selectedStep]);
     }else if(e.target.name === "go_to_input"){
-      this.props.updateStep({
-        ...this.props.steps[this.props.selectedStep],
-        choices[this.props.selectedStep].goto: e.target.value
-      })
+      this.props.steps[this.props.selectedStep].choices[index].goTo = e.target.value;
+      this.props.updateStep(this.props.selectedStep, this.props.steps[this.props.selectedStep]);
     }else if(e.target.name === "improve_input"){
-      this.props.updateStep({
-        ...this.props.steps[this.props.selectedStep],
-        choices[this.props.selectedStep].canImprove: e.target.value
-      })
+      this.props.steps[this.props.selectedStep].choices[index].toImprove = e.target.value;
+      this.props.updateStep(this.props.selectedStep, this.props.steps[this.props.selectedStep]);
     }else if(e.target.name === "done_input"){
-      this.props.updateStep({
-        ...this.props.steps[this.props.selectedStep],
-        choices[this.props.selectedStep].canImprove: e.target.value
-      })
+      this.props.steps[this.props.selectedStep].choices[index].doneWell = e.target.value;
+      this.props.updateStep(this.props.selectedStep, this.props.steps[this.props.selectedStep]);
     }
   }
   deleteOption = (index) => {
-    this.props.steps[this.props.selectedStep].splice(index, 1);
-    this.props.updateStep(this.props.selectedStep, {
-      ...this.props.steps[this.props.selectedStep],
-      choices: this.props.steps[this.props.selectedStep]
-    })
+    this.props.steps[this.props.selectedStep].choices.splice(index, 1);
+    this.props.updateStep(this.props.selectedStep, this.props.steps[this.props.selectedStep]);
+  }
+  addOption = () => {
+    this.props.steps[this.props.selectedStep].choices.push({
+      text: "",
+      toImprove: "",
+      doneWell: ""
+    });
+    this.props.updateStep(this.props.selectedStep, this.props.steps[this.props.selectedStep]);
   }
   render() {
     const curStep = this.props.steps[this.props.selectedStep];
@@ -117,7 +114,7 @@ export default class ScenarioPage extends Component {
                   <div>
                     <span onClick={() => this.deleteOption(index)}>Delete</span>
                   </div>
-                  <div><label htmlFor="response_input">Response Text:</label> <input type="text" id="response_input" name="response_input" value={choice.text}></div>
+            <div><label htmlFor="response_input">Response Text:</label> <input type="text" id="response_input" name="response_input" value={choice.text} onChange={(e) => this.choiceChanged(e, index)}></div>
                   <div><label htmlFor="go_to_input">Go to this card:</label>
                     <select value={choice.goTo}>
                       {this.props.steps.map((step, index) => {
@@ -133,12 +130,13 @@ export default class ScenarioPage extends Component {
                       })}
                     </select>
                   </div>
-                  <div><label htmlFor="improve_input">To Improve Text:</label> <input type="text" id="improve_input" name="improve_input" value={choice.canImprove}></div>
-                  <div><label htmlFor="done_input">Done Text:</label> <input type="text" id="done_input" name="done_input" value={choice.doneWell}></div>
+                  <div><label htmlFor="improve_input">To Improve Text:</label> <input type="text" id="improve_input" name="improve_input" value={choice.canImprove} onChange={(e) => this.choiceChanged(e, index)}></div>
+                  <div><label htmlFor="done_input">Done Text:</label> <input type="text" id="done_input" name="done_input" value={choice.doneWell} onChange={(e) => this.choiceChanged(e, index)}></div>
                 </li>
               );
-          </ul
-          })
+            })
+          </ul>
+          <div onClick={() => this.addOption()}>+ Add Option</div>
         }
       </div>
     )
