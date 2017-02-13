@@ -69,6 +69,7 @@ export default class ScenarioPage extends Component {
   render() {
     const curStep = this.props.steps[this.props.selectedStep];
     const curStepIndex = this.props.selectedStep;
+    console.log(curStep);
     return (
       <div>
         <div>
@@ -104,47 +105,53 @@ export default class ScenarioPage extends Component {
             })}
           </ul>
         </div>
-        if(curStep.type === 'dialog') {
-          <div>
-            <div>{curStepIndex}. Dialog</div>
-            <div><label htmlFor="speaker_input">Speaker:</label> <input type="text" id="speaker_input" name="speaker_input" value={curStep.speaker} onChange={this.dialogChanged}/></div>
-            <div><label htmlFor="text_input">Text:</label> <input type="text" id="text_input" name="text_input" value={curStep.text} onChange={this.dialogChanged}/></div>
-          </div>
-        }else {
-          <div>
-            <div>{curStepIndex}. Choice</div>
-            <ul>
-              {curStep.map((choice, index) => {
-                return (
-                  <li>
-                    <div>Option {index}</div>
-                    <div>
-                      <span onClick={() => this.deleteOption(index)}>Delete</span>
-                    </div>
-                    <div><label htmlFor="response_input">Response Text:</label> <input type="text" id="response_input" name="response_input" value={choice.text} onChange={(e) => this.choiceChanged(e, index)}/></div>
-                    <div><label htmlFor="go_to_input">Go to this card:</label>
-                      <select value={choice.goTo}>
-                        {this.props.steps.map((step, _index) => {
-                          if (step.type === 'dialog') {
-                            return (
-                              <option value={_index}>{index}. {step.type} ({step.speaker})</option>
-                            );
-                          }
-                          return (
-                            <option value={_index}>{index}. {step.type}</option>
-                          );
-                        })}
-                      </select>
-                    </div>
-                    <div><label htmlFor="improve_input">To Improve Text:</label> <input type="text" id="improve_input" name="improve_input" value={choice.canImprove} onChange={(e) => this.choiceChanged(e, index)}/></div>
-                    <div><label htmlFor="done_input">Done Text:</label> <input type="text" id="done_input" name="done_input" value={choice.doneWell} onChange={(e) => this.choiceChanged(e, index)}/></div>
-                  </li>
-                );
-              })}
-            </ul>
-            <div onClick={() => this.addOption()}>+ Add Option</div>
-          </div>
-        }
+        {(() => {
+          if (curStep.type === 'dialog') {
+            return (
+              <div>
+                <div>{curStepIndex}. Dialog</div>
+                <div><label htmlFor="speaker_input">Speaker:</label> <input type="text" id="speaker_input" name="speaker_input" value={curStep.speaker} onChange={this.dialogChanged}/></div>
+                <div><label htmlFor="text_input">Text:</label> <input type="text" id="text_input" name="text_input" value={curStep.text} onChange={this.dialogChanged}/></div>
+              </div>
+            )
+          } else {
+            return (
+              <div>
+                <div>{curStepIndex}. Choice</div>
+                <ul>
+                  {curStep.choices.map((choice, index) => {
+                    return (
+                      <li>
+                        <div>Option {index}</div>
+                        <div>
+                          <span onClick={() => this.deleteOption(index)}>Delete</span>
+                        </div>
+                        <div><label htmlFor="response_input">Response Text:</label> <input type="text" id="response_input" name="response_input" value={choice.text} onChange={(e) => this.choiceChanged(e, index)}/></div>
+                        <div><label htmlFor="go_to_input">Go to this card:</label>
+                          <select value={choice.goTo}>
+                            {this.props.steps.map((step, _index) => {
+                              if (step.type === 'dialog') {
+                                return (
+                                  <option value={_index}>{index}. {step.type} ({step.speaker})</option>
+                                );
+                              }
+                              return (
+                                <option value={_index}>{index}. {step.type}</option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                        <div><label htmlFor="improve_input">To Improve Text:</label> <input type="text" id="improve_input" name="improve_input" value={choice.canImprove} onChange={(e) => this.choiceChanged(e, index)}/></div>
+                        <div><label htmlFor="done_input">Done Text:</label> <input type="text" id="done_input" name="done_input" value={choice.doneWell} onChange={(e) => this.choiceChanged(e, index)}/></div>
+                      </li>
+                    );
+                  })}
+                </ul>
+                <div onClick={() => this.addOption()}>+ Add Option</div>
+              </div>
+            )
+          }
+        })()}
       </div>
     );
   }

@@ -12,7 +12,13 @@ const initialState = {
   selectedStep: 0,
   title: '',
   description: '',
-  steps: []
+  steps: [
+    {
+      type: 'dialog',
+      speaker: 'narrator',
+      text: ''
+    }
+  ]
 };
 
 export default function reducer(state = initialState, action = {}) {
