@@ -14,7 +14,7 @@ export default () => {
 
       { /* Routes */ }
       <Route path="/scenarios/:id" component={ScenarioPage}/>
-      <Route path="/scenarioeditor/:id" component={ScenarioEditorPage}/>
+      <Route path="/scenarioeditor" component={ScenarioEditorPage}/>
 
       { /* Catch all route */ }
       { /* <Route path="*" component={NotFound} status={404} /> */ }
