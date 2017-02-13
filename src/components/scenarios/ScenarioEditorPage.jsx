@@ -63,10 +63,21 @@ export default class ScenarioPage extends Component {
     }
   }
   deleteOption = (index) => {
-    this.props.steps[this.props.selectedStep].splice(index, 1);
+    this.props.steps[this.props.selectedStep].choices.splice(index, 1);
     this.props.updateStep(this.props.selectedStep, {
       ...this.props.steps[this.props.selectedStep],
-      choices: this.props.steps[this.props.selectedStep]
+      choices: this.props.steps[this.props.selectedStep].choices
+    })
+  }
+  addOption = () => {
+    this.props.steps[this.props.selectedStep].choices.push({
+      text: "",
+      toImprove: "",
+      doneWell: ""
+    });
+    this.props.updateStep(this.props.selectedStep, {
+      ...this.props.steps[this.props.selectedStep],
+      choices: this.props.steps[this.props.selectedStep].choices
     })
   }
   render() {
@@ -137,8 +148,9 @@ export default class ScenarioPage extends Component {
                   <div><label htmlFor="done_input">Done Text:</label> <input type="text" id="done_input" name="done_input" value={choice.doneWell}></div>
                 </li>
               );
-          </ul
-          })
+            })
+          </ul>
+          <div onClick={() => this.addOption()}>+ Add Option</div>
         }
       </div>
     )
