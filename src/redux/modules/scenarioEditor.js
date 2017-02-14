@@ -13,10 +13,86 @@ const initialState = {
   title: '',
   description: '',
   steps: [
-    {
+    {// 0
       type: 'dialog',
       speaker: 'narrator',
-      text: ''
+      goTo: 1,
+      text: 'Welcome to the Test Scenario! Please press next.'
+    },
+    {// 1
+      type: 'dialog',
+      speaker: 'doctor',
+      goTo: 2,
+      text: 'ayyyyy'
+    },
+    {// 2
+      type: 'choice',
+      choices: [
+        {
+          text: 'lmao',
+          goTo: 3,
+          doneWell: 'Noice(ayyyyy)',
+          canImprove: null
+        },
+        {
+          text: 'rofl',
+          goTo: 4,
+          doneWell: null,
+          canImprove: 'Get yo memes together yo(ayyyyy)'
+        }
+      ]
+    },
+    {// 3
+      type: 'dialog',
+      speaker: 'doctor',
+      goTo: 5,
+      text: 'Bird bird'
+    },
+    {// 4
+      type: 'dialog',
+      speaker: 'doctor',
+      goTo: 6,
+      text: 'Whats the good word?'
+    },
+    {// 5
+      type: 'choice',
+      choices: [
+        {
+          text: 'Is a nerd?',
+          goTo: 7,
+          doneWell: null,
+          canImprove: 'a nerd? wat?(bird bird)'
+        },
+        {
+          text: 'Is the word?',
+          goTo: 7,
+          doneWell: 'Yes it is, well done(bird bird)',
+          canImprove: null
+        }
+      ]
+    },
+    {// 6
+      type: 'choice',
+      choices: [
+        {
+          text: 'THWG',
+          goTo: 7,
+          doneWell: 'Piss on em!!!',
+          canImprove: null
+        },
+        {
+          text: 'TMNT',
+          goTo: 7,
+          doneWell: null,
+          canImprove: 'SHAME ON YOU, GET SOME SCHOOL SPIRIT PLZ'
+        }
+      ]
+    },
+    {// 7
+      type: 'dialog',
+      speaker: 'narrator',
+      goTo: null,
+      text: 'Thank you for completing the Test Scenario!'
     }
   ]
 };
@@ -25,7 +101,7 @@ export default function reducer(state = initialState, action = {}) {
   let newState;
   switch (action.type) {
     case ADD_STEP_TYPE:
-      newState = clone(state);
+      newState = clone(state).__wrapped__;
       if (action.stepType === 'dialog') {
         newState.steps.splice(action.index + 1, 0, {
           type: 'dialog',
@@ -56,7 +132,7 @@ export default function reducer(state = initialState, action = {}) {
       });
       return newState;
     case DELETE_STEP:
-      newState = clone(state);
+      newState = clone(state).__wrapped__;
       state.steps.splice(action.index, 1);
       newState.steps.forEach((step) => {
         if (step.type === 'dialog' && step.goTo > action.index) {
@@ -71,7 +147,9 @@ export default function reducer(state = initialState, action = {}) {
       });
       return newState;
     case DUPLICATE_STEP:
-      newState = clone(state);
+      newState = clone(state).__wrapped__;
+      console.log(newState);
+      console.log(state);
       newState.steps.splice(action.index + 1, 0, {
         ...newState.steps[action.index]
       });
@@ -88,7 +166,7 @@ export default function reducer(state = initialState, action = {}) {
       });
       return newState;
     case MOVE_STEP:
-      newState = clone(state);
+      newState = clone(state).__wrapped__;
       if (action.upDown === 'up') {
         const temp = newState.steps[action.index];
         newState.steps[action.index] = newState.steps[action.index - 1];
@@ -131,11 +209,11 @@ export default function reducer(state = initialState, action = {}) {
       }
       return newState;
     case UPDATE_STEP:
-      newState = clone(state);
+      newState = clone(state).__wrapped__;
       newState.steps[action.index] = action.obj;
       return newState;
     case SELECT_STEP:
-      newState = clone(state);
+      newState = clone(state).__wrapped__;
       newState.selectedStep = action.index;
       return newState;
     default:
