@@ -135,7 +135,7 @@ export default class ScenarioEditorPage extends Component {
             );
           }
           return (
-          <div className={s.six + ' ' + s.columns + ' ' + s.card + ' ' + s.textCenter}>
+            <div className={s.six + ' ' + s.columns + ' ' + s.card + ' ' + s.textCenter}>
               <div>{curStepIndex}. Choice</div>
               <ul>
                 {curStep.choices.map((choice, index) => {
