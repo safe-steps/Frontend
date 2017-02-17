@@ -33,17 +33,19 @@ export default class ScenarioEditorPage extends Component {
         speaker: e.target.value
       });
     }else if (e.target.name === 'text_input') {
-      this.props.updateStep({
+      this.props.updateStep(this.props.selectedStep, {
         ...this.props.steps[this.props.selectedStep],
         text: e.target.value
       });
     }
+    this.forceUpdate();
   }
   choiceChanged = (e, index) => {
-    if (e.target.name === 'responce_input') {
+    if (e.target.name === 'response_input') {
       this.props.steps[this.props.selectedStep].choices[index].text = e.target.value;
       this.props.updateStep(this.props.selectedStep, this.props.steps[this.props.selectedStep]);
     }else if (e.target.name === 'go_to_input') {
+      console.log(e.target.value);
       this.props.steps[this.props.selectedStep].choices[index].goTo = e.target.value;
       this.props.updateStep(this.props.selectedStep, this.props.steps[this.props.selectedStep]);
     }else if (e.target.name === 'improve_input') {
@@ -53,10 +55,12 @@ export default class ScenarioEditorPage extends Component {
       this.props.steps[this.props.selectedStep].choices[index].doneWell = e.target.value;
       this.props.updateStep(this.props.selectedStep, this.props.steps[this.props.selectedStep]);
     }
+    this.forceUpdate();
   }
   deleteOption = (index) => {
     this.props.steps[this.props.selectedStep].choices.splice(index, 1);
     this.props.updateStep(this.props.selectedStep, this.props.steps[this.props.selectedStep]);
+    this.forceUpdate();
   }
   addOption = () => {
     this.props.steps[this.props.selectedStep].choices.push({
@@ -65,21 +69,23 @@ export default class ScenarioEditorPage extends Component {
       doneWell: ''
     });
     this.props.updateStep(this.props.selectedStep, this.props.steps[this.props.selectedStep]);
+    this.forceUpdate();
   }
   render() {
-    console.log('rerendering');
     const curStep = this.props.steps[this.props.selectedStep];
     const curStepIndex = this.props.selectedStep;
     return (
       <div>
         <div>
+          <div onClick={() => {this.props.add(curStepIndex, 'dialog');}}>Add Dialog</div>
+          <div onClick={() => {this.props.add(curStepIndex, 'choice');}}>Add Choice</div>
           <ul>
             {this.props.steps.map((step, index) => {
               if (step.type === 'choice') {
                 return (
-                  <li key={index} onClick={() => {console.log('meh'); this.props.selectStep(index);}}>
-                    <div>{index + 1}. User Choice</div>
-                    <div>"{step.choices.map(choice => choice.text).join('", "')}"</div>
+                  <li key={index}>
+                    <div onClick={() => {this.props.selectStep(index);}}>{index + 1}. User Choice</div>
+                    <div onClick={() => {this.props.selectStep(index);}}>"{step.choices.map(choice => choice.text).join('", "')}"</div>
                     {(() => {
                       if (index === curStepIndex) {
                         return (
@@ -87,7 +93,7 @@ export default class ScenarioEditorPage extends Component {
                             <span onClick={() => this.props.move(index, 'up')}>Move Up</span>
                             <span onClick={() => this.props.move(index, 'down')}>Move Down</span>
                             <span onClick={() => this.props.duplicate(index)}>Duplicate</span>
-                            <span onClick={() => this.props.remove(index)}>Delete</span>
+                            <span onClick={() => {this.props.remove(index); this.forceUpdate();}}>Delete</span>
                           </div>
                         );
                       }
@@ -96,9 +102,9 @@ export default class ScenarioEditorPage extends Component {
                 );
               }
               return (
-                <li key={index} onClick={() => {console.log('meh'); this.props.selectStep(index);}}>
-                  <div>{index + 1}. Dialog ({step.speaker})</div>
-                  <div>"{step.text}"</div>
+                <li key={index}>
+                  <div onClick={() => {this.props.selectStep(index);}}>{index + 1}. Dialog ({step.speaker})</div>
+                  <div onClick={() => {this.props.selectStep(index);}}>"{step.text}"</div>
                   {(() => {
                     if (index === curStepIndex) {
                       return (
@@ -106,11 +112,10 @@ export default class ScenarioEditorPage extends Component {
                           <span onClick={() => this.props.move(index, 'up')}>Move Up</span>
                           <span onClick={() => this.props.move(index, 'down')}>Move Down</span>
                           <span onClick={() => this.props.duplicate(index)}>Duplicate</span>
-                          <span onClick={() => this.props.remove(index)}>Delete</span>
+                          <span onClick={() => {this.props.remove(index); this.forceUpdate();}}>Delete</span>
                         </div>
                       );
                     }
-                    return (<div/>);
                   })()}
                 </li>
               );
@@ -122,13 +127,13 @@ export default class ScenarioEditorPage extends Component {
             return (
               <div>
                 <div>{curStepIndex + 1}. Dialog</div>
-                <div><label htmlFor="speaker_input">Speaker:</label> <input type="text" id="speaker_input" name="speaker_input" value={curStep.speaker} onChange={this.dialogChanged}/></div>
-                <div><label htmlFor="text_input">Text:</label> <input type="text" id="text_input" name="text_input" value={curStep.text} onChange={this.dialogChanged}/></div>
+                <div><label htmlFor="speaker_input">Speaker:</label> <input type="text" id="speaker_input" name="speaker_input" value={curStep.speaker} onChange={(e) => this.dialogChanged(e)}/></div>
+                <div><label htmlFor="text_input">Text:</label> <input type="text" id="text_input" name="text_input" value={curStep.text} onChange={(e) => this.dialogChanged(e)}/></div>
               </div>
             );
           }
           return (
-            <div>
+          <div>
               <div>{curStepIndex}. Choice</div>
               <ul>
                 {curStep.choices.map((choice, index) => {
@@ -140,7 +145,7 @@ export default class ScenarioEditorPage extends Component {
                       </div>
                       <div><label htmlFor="response_input">Response Text:</label> <input type="text" id="response_input" name="response_input" value={choice.text} onChange={(e) => this.choiceChanged(e, index)}/></div>
                       <div><label htmlFor="go_to_input">Go to this card:</label>
-                        <select value={choice.goTo}>
+                        <select id="go_to_input" name="go_to_input" value={choice.goTo} onChange={(e) => this.choiceChanged(e, index)}>
                           {this.props.steps.map((step, _index) => {
                             if (step.type === 'dialog') {
                               return (

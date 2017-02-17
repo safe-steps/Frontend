@@ -102,6 +102,7 @@ export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case ADD_STEP_TYPE:
       newState = clone(state).__wrapped__;
+      newState.selectedStep = action.index + 1;
       if (action.stepType === 'dialog') {
         newState.steps.splice(action.index + 1, 0, {
           type: 'dialog',
@@ -130,10 +131,14 @@ export default function reducer(state = initialState, action = {}) {
           });
         }
       });
-      return newState;
+      return {
+        ...state,
+        selectedStep: newState.selectedStep,
+        steps: newState.steps
+      };
     case DELETE_STEP:
       newState = clone(state).__wrapped__;
-      state.steps.splice(action.index, 1);
+      newState.steps.splice(action.index, 1);
       newState.steps.forEach((step) => {
         if (step.type === 'dialog' && step.goTo > action.index) {
           step.goTo--;
@@ -145,11 +150,13 @@ export default function reducer(state = initialState, action = {}) {
           });
         }
       });
-      return newState;
+      return {
+        ...state,
+        steps: newState.steps
+      };
     case DUPLICATE_STEP:
       newState = clone(state).__wrapped__;
-      console.log(newState);
-      console.log(state);
+      newState.selectedStep = action.index + 1;
       newState.steps.splice(action.index + 1, 0, {
         ...newState.steps[action.index]
       });
@@ -164,10 +171,15 @@ export default function reducer(state = initialState, action = {}) {
           });
         }
       });
-      return newState;
+      return {
+        ...state,
+        selectedStep: newState.selectedStep,
+        steps: newState.steps
+      };
     case MOVE_STEP:
       newState = clone(state).__wrapped__;
       if (action.upDown === 'up') {
+        newState.selectedStep = action.index - 1;
         const temp = newState.steps[action.index];
         newState.steps[action.index] = newState.steps[action.index - 1];
         newState.steps[action.index - 1] = temp;
@@ -189,6 +201,7 @@ export default function reducer(state = initialState, action = {}) {
       }
       if (action.upDown === 'down') {
         const temp = newState.steps[action.index];
+        newState.selectedStep = action.index + 1;
         newState.steps[action.index] = newState.steps[action.index + 1];
         newState.steps[action.index + 1] = temp;
         newState.steps.forEach((step) => {
@@ -207,15 +220,23 @@ export default function reducer(state = initialState, action = {}) {
           }
         });
       }
-      return newState;
+      return {
+        ...state,
+        selectedStep: newState.selectedStep,
+        steps: newState.steps
+      };
     case UPDATE_STEP:
       newState = clone(state).__wrapped__;
       newState.steps[action.index] = action.obj;
-      return newState;
+      return {
+        ...state,
+        steps: newState.steps
+      };
     case SELECT_STEP:
-      newState = clone(state).__wrapped__;
-      newState.selectedStep = action.index;
-      return newState;
+      return {
+        ...state,
+        selectedStep: action.index
+      };
     default:
       return state;
   }
