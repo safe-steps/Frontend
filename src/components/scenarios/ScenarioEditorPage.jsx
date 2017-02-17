@@ -5,7 +5,7 @@ import {updateStep, add, remove, duplicate, move, selectStep} from 'redux/module
 @connect(state => ({
   ...state.scenarioEditor
 }), {updateStep, add, remove, duplicate, move, selectStep})
-export default class ScenarioPage extends Component {
+export default class ScenarioEditorPage extends Component {
   static propTypes = {
     selectedStep: PropTypes.number,
     steps: PropTypes.array,
@@ -67,6 +67,7 @@ export default class ScenarioPage extends Component {
     this.props.updateStep(this.props.selectedStep, this.props.steps[this.props.selectedStep]);
   }
   render() {
+    console.log('rerendering');
     const curStep = this.props.steps[this.props.selectedStep];
     const curStepIndex = this.props.selectedStep;
     return (
@@ -76,7 +77,7 @@ export default class ScenarioPage extends Component {
             {this.props.steps.map((step, index) => {
               if (step.type === 'choice') {
                 return (
-                  <li onClick={() => this.props.selectStep(index)}>
+                  <li key={index} onClick={() => {console.log('meh'); this.props.selectStep(index);}}>
                     <div>{index + 1}. User Choice</div>
                     <div>"{step.choices.map(choice => choice.text).join('", "')}"</div>
                     {(() => {
@@ -90,13 +91,12 @@ export default class ScenarioPage extends Component {
                           </div>
                         );
                       }
-                      return (<div/>);
                     })()}
                   </li>
                 );
               }
               return (
-                <li onClick={() => this.props.selectStep(index)}>
+                <li key={index} onClick={() => {console.log('meh'); this.props.selectStep(index);}}>
                   <div>{index + 1}. Dialog ({step.speaker})</div>
                   <div>"{step.text}"</div>
                   {(() => {
@@ -133,7 +133,7 @@ export default class ScenarioPage extends Component {
               <ul>
                 {curStep.choices.map((choice, index) => {
                   return (
-                    <li>
+                    <li key={curStepIndex + index}>
                       <div>Option {index + 1}</div>
                       <div>
                         <span onClick={() => this.deleteOption(index)}>Delete</span>
@@ -144,11 +144,11 @@ export default class ScenarioPage extends Component {
                           {this.props.steps.map((step, _index) => {
                             if (step.type === 'dialog') {
                               return (
-                                <option value={_index}>{_index + 1}. {step.type} ({step.speaker})</option>
+                                <option key={index + _index} value={_index}>{_index + 1}. {step.type} ({step.speaker})</option>
                               );
                             }
                             return (
-                              <option value={_index}>{_index + 1}. {step.type}</option>
+                              <option key={index + _index} value={_index}>{_index + 1}. {step.type}</option>
                             );
                           })}
                         </select>
