@@ -78,8 +78,10 @@ export default class ScenarioEditorPage extends Component {
     return (
       <div className={s.row}>
         <div className={s.six + ' ' + s.columns + ' ' + s.card + ' ' + s.textCenter}>
-          <div onClick={() => {this.props.add(curStepIndex, 'dialog');}}>Add Dialog</div>
-          <div onClick={() => {this.props.add(curStepIndex, 'choice');}}>Add Choice</div>
+          <div>
+            <button className={s['button-primary']} type="button" onClick={() => {this.props.add(curStepIndex, 'dialog');}}>Add Dialog</button>
+            <button className={s['button-primary']} type="button" onClick={() => {this.props.add(curStepIndex, 'choice');}}>Add Choice</button>
+          </div>
           <ul>
             {this.props.steps.map((step, index) => {
               if (step.type === 'choice') {
@@ -91,10 +93,10 @@ export default class ScenarioEditorPage extends Component {
                       if (index === curStepIndex) {
                         return (
                           <div>
-                            <span onClick={() => this.props.move(index, 'up')}>Move Up</span>
-                            <span onClick={() => this.props.move(index, 'down')}>Move Down</span>
-                            <span onClick={() => this.props.duplicate(index)}>Duplicate</span>
-                            <span onClick={() => {this.props.remove(index); this.forceUpdate();}}>Delete</span>
+                            <button type="button" onClick={() => this.props.move(index, 'up')}>Move Up</button>
+                            <button type="button" onClick={() => this.props.move(index, 'down')}>Move Down</button>
+                            <button type="button" onClick={() => this.props.duplicate(index)}>Duplicate</button>
+                            <button type="button" onClick={() => {this.props.remove(index); this.forceUpdate();}}>Delete</button>
                           </div>
                         );
                       }
@@ -110,10 +112,10 @@ export default class ScenarioEditorPage extends Component {
                     if (index === curStepIndex) {
                       return (
                         <div>
-                          <span onClick={() => this.props.move(index, 'up')}>Move Up</span>
-                          <span onClick={() => this.props.move(index, 'down')}>Move Down</span>
-                          <span onClick={() => this.props.duplicate(index)}>Duplicate</span>
-                          <span onClick={() => {this.props.remove(index); this.forceUpdate();}}>Delete</span>
+                          <button type="button" onClick={() => this.props.move(index, 'up')}>Move Up</button>
+                          <button type="button" onClick={() => this.props.move(index, 'down')}>Move Down</button>
+                          <button type="button" onClick={() => this.props.duplicate(index)}>Duplicate</button>
+                          <button type="button" onClick={() => {this.props.remove(index); this.forceUpdate();}}>Delete</button>
                         </div>
                       );
                     }
@@ -141,9 +143,7 @@ export default class ScenarioEditorPage extends Component {
                   return (
                     <li key={curStepIndex + index}>
                       <div>Option {index + 1}</div>
-                      <div>
-                        <span onClick={() => this.deleteOption(index)}>Delete</span>
-                      </div>
+                      <button type="button" onClick={() => this.deleteOption(index)}>Delete</button>
                       <div><label htmlFor="response_input">Response Text:</label> <input type="text" id="response_input" name="response_input" value={choice.text} onChange={(e) => this.choiceChanged(e, index)}/></div>
                       <div><label htmlFor="go_to_input">Go to this card:</label>
                         <select id="go_to_input" name="go_to_input" value={choice.goTo} onChange={(e) => this.choiceChanged(e, index)}>
@@ -165,7 +165,7 @@ export default class ScenarioEditorPage extends Component {
                   );
                 })}
               </ul>
-              <div onClick={() => this.addOption()}>+ Add Option</div>
+              <button className={s['button-primary']} type="button" onClick={() => this.addOption()}>Add Option</button>
             </div>
           );
         })()}
