@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import s from 'components/styles/index.scss';
 import {connect} from 'react-redux';
 import {updateStep, add, remove, duplicate, move, selectStep} from 'redux/modules/scenarioEditor.js';
 
@@ -75,8 +76,8 @@ export default class ScenarioEditorPage extends Component {
     const curStep = this.props.steps[this.props.selectedStep];
     const curStepIndex = this.props.selectedStep;
     return (
-      <div>
-        <div>
+      <div className={s.row}>
+        <div className={s.six + ' ' + s.columns + ' ' + s.card + ' ' + s.textCenter}>
           <div onClick={() => {this.props.add(curStepIndex, 'dialog');}}>Add Dialog</div>
           <div onClick={() => {this.props.add(curStepIndex, 'choice');}}>Add Choice</div>
           <ul>
@@ -84,7 +85,7 @@ export default class ScenarioEditorPage extends Component {
               if (step.type === 'choice') {
                 return (
                   <li key={index}>
-                    <div onClick={() => {this.props.selectStep(index);}}>{index + 1}. User Choice</div>
+                    <div className={s.title} onClick={() => {this.props.selectStep(index);}}>{index + 1}. User Choice</div>
                     <div onClick={() => {this.props.selectStep(index);}}>"{step.choices.map(choice => choice.text).join('", "')}"</div>
                     {(() => {
                       if (index === curStepIndex) {
@@ -103,7 +104,7 @@ export default class ScenarioEditorPage extends Component {
               }
               return (
                 <li key={index}>
-                  <div onClick={() => {this.props.selectStep(index);}}>{index + 1}. Dialog ({step.speaker})</div>
+                  <div className={s.title} onClick={() => {this.props.selectStep(index);}}>{index + 1}. Dialog ({step.speaker})</div>
                   <div onClick={() => {this.props.selectStep(index);}}>"{step.text}"</div>
                   {(() => {
                     if (index === curStepIndex) {
@@ -125,7 +126,7 @@ export default class ScenarioEditorPage extends Component {
         {(() => {
           if (curStep.type === 'dialog') {
             return (
-              <div>
+              <div className={s.six + ' ' + s.columns + ' ' + s.card + ' ' + s.textCenter}>
                 <div>{curStepIndex + 1}. Dialog</div>
                 <div><label htmlFor="speaker_input">Speaker:</label> <input type="text" id="speaker_input" name="speaker_input" value={curStep.speaker} onChange={(e) => this.dialogChanged(e)}/></div>
                 <div><label htmlFor="text_input">Text:</label> <input type="text" id="text_input" name="text_input" value={curStep.text} onChange={(e) => this.dialogChanged(e)}/></div>
@@ -133,7 +134,7 @@ export default class ScenarioEditorPage extends Component {
             );
           }
           return (
-          <div>
+          <div className={s.six + ' ' + s.columns + ' ' + s.card + ' ' + s.textCenter}>
               <div>{curStepIndex}. Choice</div>
               <ul>
                 {curStep.choices.map((choice, index) => {
