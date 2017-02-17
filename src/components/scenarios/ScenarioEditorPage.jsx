@@ -46,7 +46,6 @@ export default class ScenarioEditorPage extends Component {
       this.props.steps[this.props.selectedStep].choices[index].text = e.target.value;
       this.props.updateStep(this.props.selectedStep, this.props.steps[this.props.selectedStep]);
     }else if (e.target.name === 'go_to_input') {
-      console.log(e.target.value);
       this.props.steps[this.props.selectedStep].choices[index].goTo = e.target.value;
       this.props.updateStep(this.props.selectedStep, this.props.steps[this.props.selectedStep]);
     }else if (e.target.name === 'improve_input') {
