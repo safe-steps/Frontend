@@ -82,7 +82,7 @@ export default class ScenarioEditorPage extends Component {
         <div>Description: {this.props.description}</div>
       </div>
       <div className={s.row}>
-        <div className={s.six + ' ' + s.columns + ' ' + s.card + ' ' + s.textCenter}>
+        <div className={s.six + ' ' + s.columns + ' ' + s.card + ' ' + s.steps}>
           <div>
             <button className={s['button-primary']} type="button" onClick={() => {this.props.add(curStepIndex, 'dialog');}}>Add Dialog</button>
             <button className={s['button-primary']} type="button" onClick={() => {this.props.add(curStepIndex, 'choice');}}>Add Choice</button>
