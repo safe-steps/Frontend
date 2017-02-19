@@ -23,22 +23,22 @@ const initialState = {
       type: 'dialog',
       speaker: 'doctor',
       goTo: 2,
-      text: 'ayyyyy'
+      text: 'Question'
     },
     {// 2
       type: 'choice',
       choices: [
         {
-          text: 'lmao',
+          text: 'yes',
           goTo: 3,
-          doneWell: 'Noice(ayyyyy)',
+          doneWell: 'Very Good',
           canImprove: null
         },
         {
-          text: 'rofl',
+          text: 'no',
           goTo: 4,
           doneWell: null,
-          canImprove: 'Get yo memes together yo(ayyyyy)'
+          canImprove: 'Not correct'
         }
       ]
     },
@@ -46,27 +46,27 @@ const initialState = {
       type: 'dialog',
       speaker: 'doctor',
       goTo: 5,
-      text: 'Bird bird'
+      text: 'How are you?'
     },
     {// 4
       type: 'dialog',
       speaker: 'doctor',
       goTo: 6,
-      text: 'Whats the good word?'
+      text: 'Where are you from?'
     },
     {// 5
       type: 'choice',
       choices: [
         {
-          text: 'Is a nerd?',
+          text: 'Great!',
           goTo: 7,
           doneWell: null,
-          canImprove: 'a nerd? wat?(bird bird)'
+          canImprove: 'No further explaination?'
         },
         {
-          text: 'Is the word?',
+          text: 'Not doing to well.',
           goTo: 7,
-          doneWell: 'Yes it is, well done(bird bird)',
+          doneWell: 'Honest',
           canImprove: null
         }
       ]
@@ -75,16 +75,16 @@ const initialState = {
       type: 'choice',
       choices: [
         {
-          text: 'THWG',
+          text: 'Atlanta',
           goTo: 7,
-          doneWell: 'Piss on em!!!',
+          doneWell: 'Love me some ATL',
           canImprove: null
         },
         {
-          text: 'TMNT',
+          text: 'Nashvegas',
           goTo: 7,
           doneWell: null,
-          canImprove: 'SHAME ON YOU, GET SOME SCHOOL SPIRIT PLZ'
+          canImprove: 'But you are in ATL now?'
         }
       ]
     },
