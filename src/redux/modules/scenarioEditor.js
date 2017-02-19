@@ -10,8 +10,8 @@ import clone from 'lodash';
 
 const initialState = {
   selectedStep: 0,
-  title: '',
-  description: '',
+  title: 'Test Scenario',
+  description: 'This Scenario is only for testing',
   steps: [
     {// 0
       type: 'dialog',

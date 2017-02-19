@@ -9,6 +9,8 @@ import {updateStep, add, remove, duplicate, move, selectStep} from 'redux/module
 export default class ScenarioEditorPage extends Component {
   static propTypes = {
     selectedStep: PropTypes.number,
+    title: PropTypes.string,
+    description: PropTypes.string,
     steps: PropTypes.array,
     loading: PropTypes.bool,
     isDone: PropTypes.bool,
@@ -75,6 +77,10 @@ export default class ScenarioEditorPage extends Component {
     const curStep = this.props.steps[this.props.selectedStep];
     const curStepIndex = this.props.selectedStep;
     return (
+      <div><div>
+        <div>Scenario Title: {this.props.title}</div>
+        <div>Description: {this.props.description}</div>
+      </div>
       <div className={s.row}>
         <div className={s.six + ' ' + s.columns + ' ' + s.card + ' ' + s.textCenter}>
           <div>
@@ -159,7 +165,7 @@ export default class ScenarioEditorPage extends Component {
                         </select>
                       </div>
                       <div><label htmlFor="improve_input">To Improve Text:</label> <input type="text" id="improve_input" name="improve_input" value={choice.canImprove} onChange={(e) => this.choiceChanged(e, index)}/></div>
-                      <div><label htmlFor="done_input">Done Text:</label> <input type="text" id="done_input" name="done_input" value={choice.doneWell} onChange={(e) => this.choiceChanged(e, index)}/></div>
+                      <div><label htmlFor="done_input">Done Well Text:</label> <input type="text" id="done_input" name="done_input" value={choice.doneWell} onChange={(e) => this.choiceChanged(e, index)}/></div>
                     </li>
                   );
                 })}
@@ -168,7 +174,7 @@ export default class ScenarioEditorPage extends Component {
             </div>
           );
         })()}
-      </div>
+      </div></div>
     );
   }
 }
