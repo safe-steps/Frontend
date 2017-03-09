@@ -94,6 +94,7 @@ export default class ScenarioEditorPage extends Component {
           <div>
             <button className={s['button-primary']} type="button" onClick={() => {this.props.add(curStepIndex, 'dialog');}}>Add Dialog</button>
             <button className={s['button-primary']} type="button" onClick={() => {this.props.add(curStepIndex, 'choice');}}>Add Choice</button>
+            <button className={s['button-primary']} type="button">Submit Scenario</button>
           </div>
           <ul>
             {this.props.steps.map((step, index) => {
