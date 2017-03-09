@@ -1,4 +1,4 @@
-const UPDATE_PLAN = 'scenarioEditor/UPDATE_STEP';
+const UPDATE_PLAN = 'safetyPlan/UPDATE_PLAN';
 
 
 // import clone from 'lodash';
