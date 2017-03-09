@@ -1,7 +1,7 @@
 const UPDATE_PLAN = 'scenarioEditor/UPDATE_STEP';
 
 
-import clone from 'lodash';
+// import clone from 'lodash';
 
 const initialState = {
   escapeRoutes: '',
@@ -12,10 +12,9 @@ const initialState = {
 };
 
 export default function reducer(state = initialState, action = {}) {
-  let newState;
   switch (action.type) {
     case UPDATE_PLAN:
-      return obj;
+      return action.obj;
     default:
       return state;
   }
