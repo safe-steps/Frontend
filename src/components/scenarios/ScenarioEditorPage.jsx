@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import s from 'components/styles/index.scss';
 import {connect} from 'react-redux';
 import {updateStep, add, remove, duplicate, move, selectStep, updateTitle, updateDescription} from 'redux/modules/scenarioEditor.js';
+import {Link} from 'react-router';
 
 @connect(state => ({
   ...state.scenarioEditor
@@ -85,31 +86,29 @@ export default class ScenarioEditorPage extends Component {
     const curStep = this.props.steps[this.props.selectedStep];
     const curStepIndex = this.props.selectedStep;
     return (
-      <div><div>
-        <div><label htmlFor="title_input">Scenario Title: </label> <input type="text" id="title_input" name="title_input" value={this.props.title} onChange={(e) => this.titleChanged(e)}/></div>
-        <div><label htmlFor="description_input">Description: </label> <input type="text" id="description_input" name="description_input" value={this.props.description} onChange={(e) => this.descriptionChanged(e)}/></div>
+      <div><div className={s.titlebar + ' ' + s.row}>
+        <div className={s.two + ' ' + s.columns}><label htmlFor="title_input">Scenario Title</label> <input type="text" id="title_input" name="title_input" value={this.props.title} onChange={(e) => this.titleChanged(e)}/></div>
+        <div className={s.four + ' ' + s.columns}><label htmlFor="description_input">Description</label> <input type="text" id="description_input" name="description_input" value={this.props.description} onChange={(e) => this.descriptionChanged(e)}/></div>
+        <Link to={'/'} className={s.button}>Back to Home</Link>
       </div>
       <div className={s.row}>
-        <div className={s.six + ' ' + s.columns + ' ' + s.card + ' ' + s.steps}>
-          <div>
-            <button className={s['button-primary']} type="button" onClick={() => {this.props.add(curStepIndex, 'dialog');}}>Add Dialog</button>
-            <button className={s['button-primary']} type="button" onClick={() => {this.props.add(curStepIndex, 'choice');}}>Add Choice</button>
+        <div className={s.steps}>
+          <div className={s.card + ' ' + s.row}>
+            <button className={s.button + ' ' + s.six + ' ' + s.columns} type="button" onClick={() => {this.props.add(curStepIndex, 'dialog');}}>Add Dialog</button>
+            <button className={s.button + ' ' + s.six + ' ' + s.columns} type="button" onClick={() => {this.props.add(curStepIndex, 'choice');}}>Add Choice</button>
           </div>
           <ul>
             {this.props.steps.map((step, index) => {
               if (step.type === 'choice') {
                 return (
-                  <li key={index}>
-                    <div className={s.title} onClick={() => {this.props.selectStep(index);}}>{index + 1}. User Choice</div>
+                  <li className={s.card} key={index}>
+                    <div className={s.title} onClick={() => {this.props.selectStep(index);}}>Step {index + 1}. User Choice</div>
                     <div onClick={() => {this.props.selectStep(index);}}>"{step.choices.map(choice => choice.text).join('", "')}"</div>
                     {(() => {
                       if (index === curStepIndex) {
                         return (
                           <div>
-                            <button type="button" onClick={() => this.props.move(index, 'up')}>Move Up</button>
-                            <button type="button" onClick={() => this.props.move(index, 'down')}>Move Down</button>
-                            <button type="button" onClick={() => this.props.duplicate(index)}>Duplicate</button>
-                            <button type="button" onClick={() => {this.props.remove(index); this.forceUpdate();}}>Delete</button>
+                            <a href="#" onClick={() => this.props.move(index, 'up')}>Move Up</a> • <a href="#" onClick={() => this.props.move(index, 'down')}>Move Down</a> • <a href="#" onClick={() => this.props.duplicate(index)}>Duplicate</a> • <a href="#" onClick={() => {this.props.remove(index); this.forceUpdate();}}>Delete</a>
                           </div>
                         );
                       }
@@ -118,17 +117,14 @@ export default class ScenarioEditorPage extends Component {
                 );
               }
               return (
-                <li key={index}>
-                  <div className={s.title} onClick={() => {this.props.selectStep(index);}}>{index + 1}. Dialog ({step.speaker})</div>
+                <li className={s.card} key={index}>
+                  <div className={s.title} onClick={() => {this.props.selectStep(index);}}>Step {index + 1}. Dialog ({step.speaker})</div>
                   <div onClick={() => {this.props.selectStep(index);}}>"{step.text}"</div>
                   {(() => {
                     if (index === curStepIndex) {
                       return (
                         <div>
-                          <button type="button" onClick={() => this.props.move(index, 'up')}>Move Up</button>
-                          <button type="button" onClick={() => this.props.move(index, 'down')}>Move Down</button>
-                          <button type="button" onClick={() => this.props.duplicate(index)}>Duplicate</button>
-                          <button type="button" onClick={() => {this.props.remove(index); this.forceUpdate();}}>Delete</button>
+                          <a href="#" onClick={() => this.props.move(index, 'up')}>Move Up</a> • <a href="#" onClick={() => this.props.move(index, 'down')}>Move Down</a> • <a href="#" onClick={() => this.props.duplicate(index)}>Duplicate</a> • <a href="#" onClick={() => {this.props.remove(index); this.forceUpdate();}}>Delete</a>
                         </div>
                       );
                     }
@@ -141,39 +137,46 @@ export default class ScenarioEditorPage extends Component {
         {(() => {
           if (curStep.type === 'dialog') {
             return (
-              <div className={s.six + ' ' + s.columns + ' ' + s.card + ' ' + s.textCenter}>
-                <div>{curStepIndex + 1}. Dialog</div>
+              <div className={s.editor}>
+                <h3 className={s.title}>Step {curStepIndex + 1}. Dialog</h3>
                 <div><label htmlFor="speaker_input">Speaker:</label> <input type="text" id="speaker_input" name="speaker_input" value={curStep.speaker} onChange={(e) => this.dialogChanged(e)}/></div>
                 <div><label htmlFor="text_input">Text:</label> <input type="text" id="text_input" name="text_input" value={curStep.text} onChange={(e) => this.dialogChanged(e)}/></div>
               </div>
             );
           }
           return (
-            <div className={s.six + ' ' + s.columns + ' ' + s.card + ' ' + s.textCenter}>
-              <div>{curStepIndex}. Choice</div>
+            <div className={s.editor}>
+              <h3 className={s.title}>Step {curStepIndex}. Choice</h3>
               <ul>
                 {curStep.choices.map((choice, index) => {
                   return (
                     <li key={curStepIndex + index}>
-                      <div>Option {index + 1}</div>
-                      <button type="button" onClick={() => this.deleteOption(index)}>Delete</button>
-                      <div><label htmlFor="response_input">Response Text:</label> <input type="text" id="response_input" name="response_input" value={choice.text} onChange={(e) => this.choiceChanged(e, index)}/></div>
-                      <div><label htmlFor="go_to_input">Go to this card:</label>
-                        <select id="go_to_input" name="go_to_input" value={choice.goTo} onChange={(e) => this.choiceChanged(e, index)}>
-                          {this.props.steps.map((step, _index) => {
-                            if (step.type === 'dialog') {
-                              return (
-                                <option key={index + _index} value={_index}>{_index + 1}. {step.type} ({step.speaker})</option>
-                              );
-                            }
-                            return (
-                              <option key={index + _index} value={_index}>{_index + 1}. {step.type}</option>
-                            );
-                          })}
-                        </select>
+                      <div className={s.title}>
+                        <h5>Option {index + 1}</h5>
                       </div>
-                      <div><label htmlFor="improve_input">To Improve Text:</label> <input type="text" id="improve_input" name="improve_input" value={choice.canImprove} onChange={(e) => this.choiceChanged(e, index)}/></div>
-                      <div><label htmlFor="done_input">Done Well Text:</label> <input type="text" id="done_input" name="done_input" value={choice.doneWell} onChange={(e) => this.choiceChanged(e, index)}/></div>
+                      <div className={s.row}>
+                        <div className={s.six + ' ' + s.columns}><label htmlFor="response_input">Response Text:</label> <input type="text" id="response_input" name="response_input" value={choice.text} onChange={(e) => this.choiceChanged(e, index)}/></div>
+                        <div className={s.six + ' ' + s.columns}><label htmlFor="go_to_input">Go to this card:</label>
+                          <select id="go_to_input" name="go_to_input" value={choice.goTo} onChange={(e) => this.choiceChanged(e, index)}>
+                            {this.props.steps.map((step, _index) => {
+                              if (step.type === 'dialog') {
+                                return (
+                                  <option key={index + _index} value={_index}>Step {_index + 1}. {step.type} ({step.speaker})</option>
+                                );
+                              }
+                              return (
+                                <option key={index + _index} value={_index}>Step {_index + 1}. {step.type}</option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                      </div>
+                      <div className={s.row}>
+                        <div className={s.six + ' ' + s.columns}><label htmlFor="improve_input">To Improve Text:</label> <input type="text" id="improve_input" name="improve_input" value={choice.canImprove} onChange={(e) => this.choiceChanged(e, index)}/></div>
+                        <div className={s.six + ' ' + s.columns}><label htmlFor="done_input">Done Well Text:</label> <input type="text" id="done_input" name="done_input" value={choice.doneWell} onChange={(e) => this.choiceChanged(e, index)}/></div>
+                      </div>
+                      <a href="#" onClick={() => this.deleteOption(index)}>Delete Option</a>
+                      <hr></hr>
                     </li>
                   );
                 })}

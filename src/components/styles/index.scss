@@ -35,7 +35,7 @@ h5 {
 .title {
 	font-weight: 600;
 	margin-bottom: 0;
-	margin-top: 2rem;
+	// margin-top: 2rem;
 }
 
 .textCenter {
@@ -46,20 +46,78 @@ h5 {
 
 .container {
 	background-color: $white;
-	border: 1px solid #E0E0E0;
+	border: 1px solid $grey-light;
 	box-shadow: 0 2px 3px 0 rgba(0,0,0,0.05);
 	padding: 2rem;
 }
 
 .card {
 	background-color: $grey-lightest;
-	border: 1px solid #E0E0E0;
+	border: 1px solid $grey-light;
 	box-shadow: 0 2px 3px 0 rgba(0,0,0,0.05);
 	margin-bottom: 2rem;
 }
 
+.titlebar {
+	background-color: $white;
+	border: 1px solid $grey-light;
+	box-shadow: 0 2px 3px 0 rgba(0,0,0,0.05);
+	padding: 0 2rem;
+
+	input {
+		width: 100%;
+	}
+
+	.button {
+		margin-top: 29px;
+		float: right;
+	}
+}
+
 .steps {
-	padding: 1rem;
+	height: 100%;
+	min-width: 550px;
+	position: fixed;
+	overflow: scroll;
+	background-color: $grey-light;
+	box-shadow: 0 2px 3px 0 rgba(0,0,0,0.05);
+
+	.card {
+		padding: 2rem;
+		margin: 2rem;
+	}
+
+	li {
+		list-style: none;
+		border-top: 1px solid $grey-light;
+		white-space: nowrap;
+		overflow: hidden;
+		background-color: $white;
+	}
+
+	li:hover {
+		cursor: pointer;
+		background-color: $cyan-light;
+	}
+
+}
+
+.editor {
+	margin-left: 550px;
+	padding: 0 2rem;
+
+	.title {
+		padding: 2rem 0;
+	}
+
+	h5 {
+		margin-bottom: 0;
+	}
+
+	input {
+		width: 100%;
+	}
+
 	li {
 		list-style: none;
 	}
