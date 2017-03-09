@@ -11,6 +11,11 @@ const routes = [
     handler: require('./serverHandlers/getOneScenario.handler.js')
   },
   {
+    method: 'post',
+    path: '/api/scenario',
+    handler: require('./serverHandlers/submitScenario.handler.js')
+  },
+  {
     method: 'get',
     path: '/*',
     handler: require('./serverHandlers/render.handler.js')

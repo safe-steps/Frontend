@@ -6,7 +6,9 @@ const UPDATE_STEP = 'scenarioEditor/UPDATE_STEP';
 const SELECT_STEP = 'scenarioEditor/SELECT_STEP';
 const UPDATE_TITLE = 'scenarioEditor/UPDATE_TITLE';
 const UPDATE_DESCRIPTION = 'scenarioEditor/UPDATE_DESCRIPTION';
-
+const SUBMIT = 'scenarioEditor/SUBMIT';
+const SUBMIT_SUCCESS = 'scenarioEditor/SUBMIT_SUCCESS';
+const SUBMIT_FAIL = 'scenarioEditor/SUBMIT_FAIL';
 
 import clone from 'lodash';
 
@@ -21,7 +23,8 @@ const initialState = {
       goTo: 1,
       text: ''
     }
-  ]
+  ],
+  submitting: false
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -174,6 +177,21 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         description: action.text
       };
+    case SUBMIT:
+      return {
+        ...state,
+        submitting: true
+      };
+    case SUBMIT_SUCCESS:
+      return {
+        ...state,
+        submitting: false
+      };
+    case SUBMIT_FAIL:
+      return {
+        ...state,
+        submitting: false
+      };
     default:
       return state;
   }
@@ -235,5 +253,15 @@ export function updateDescription(text) {
   return {
     type: UPDATE_DESCRIPTION,
     text
+  };
+}
+
+export function submitScenario(json) {
+  console.log(json);
+  return {
+    types: [SUBMIT, SUBMIT_SUCCESS, SUBMIT_FAIL],
+    promise: (client) => client.post('/scenario', {
+      data: json
+    })
   };
 }

@@ -1,12 +1,12 @@
 import React, {Component, PropTypes} from 'react';
 import s from 'components/styles/index.scss';
 import {connect} from 'react-redux';
-import {updateStep, add, remove, duplicate, move, selectStep, updateTitle, updateDescription} from 'redux/modules/scenarioEditor.js';
+import {updateStep, add, remove, duplicate, move, selectStep, updateTitle, updateDescription, submitScenario} from 'redux/modules/scenarioEditor.js';
 import {Link} from 'react-router';
 
 @connect(state => ({
   ...state.scenarioEditor
-}), {updateStep, add, remove, duplicate, move, selectStep, updateTitle, updateDescription})
+}), {updateStep, add, remove, duplicate, move, selectStep, updateTitle, updateDescription, submitScenario})
 export default class ScenarioEditorPage extends Component {
   static propTypes = {
     selectedStep: PropTypes.number,
@@ -89,7 +89,13 @@ export default class ScenarioEditorPage extends Component {
       <div><div className={s.titlebar + ' ' + s.row}>
         <div className={s.two + ' ' + s.columns}><label htmlFor="title_input">Scenario Title</label> <input type="text" id="title_input" name="title_input" value={this.props.title} onChange={(e) => this.titleChanged(e)}/></div>
         <div className={s.four + ' ' + s.columns}><label htmlFor="description_input">Description</label> <input type="text" id="description_input" name="description_input" value={this.props.description} onChange={(e) => this.descriptionChanged(e)}/></div>
-        <Link to={'/'} className={s.button}>Submit Scenario</Link>
+        <Link to={'/'} className={s.button} onClick={() => {
+            this.props.submitScenario({
+              title: this.props.title,
+              description: this.props.description,
+              steps: this.props.steps
+            })
+          }}>Submit Scenario</Link>
         <Link to={'/'} className={s.button}>Back to Home</Link>
       </div>
       <div className={s.row}>

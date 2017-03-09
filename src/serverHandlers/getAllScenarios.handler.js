@@ -1,24 +1,8 @@
+import requester from 'superagent';
+
 export default function(req, res) {
-	res.send([
-		{
-			_id: 1,
-			title: "Scenario 1"
-		},
-		{
-			_id: 2,
-			title: "Scenario 2"
-		},
-		{
-			_id: 3,
-			title: "Scenario 3"
-		},
-		{
-			_id: 4,
-			title: "Scenario 4"
-		},
-		{
-			_id: 5,
-			title: "Scenario 5"
-		}
-	])
+	requester.get('https://api.zenow.io/v1/set/58c0b928e486560018d02e3d/item?count=1000&apikey=' + process.env.API_KEY)
+		.end((err, result) => {
+			res.send(result.body.items.read);
+		})
 }

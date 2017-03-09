@@ -5,6 +5,7 @@ import compression from 'compression';
 import path from 'path';
 import PrettyError from 'pretty-error';
 import http from 'http';
+import bodyParser from 'body-parser';
 
 import routes from './serverRoutes.map'
 
@@ -18,6 +19,7 @@ import request from 'superagent';
 
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
+app.use(bodyParser.json());
 
 routes.forEach((route) => {
     try {
