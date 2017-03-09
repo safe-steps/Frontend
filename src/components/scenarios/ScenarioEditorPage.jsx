@@ -1,11 +1,11 @@
 import React, {Component, PropTypes} from 'react';
 import s from 'components/styles/index.scss';
 import {connect} from 'react-redux';
-import {updateStep, add, remove, duplicate, move, selectStep} from 'redux/modules/scenarioEditor.js';
+import {updateStep, add, remove, duplicate, move, selectStep, updateTitle, updateDescription} from 'redux/modules/scenarioEditor.js';
 
 @connect(state => ({
   ...state.scenarioEditor
-}), {updateStep, add, remove, duplicate, move, selectStep})
+}), {updateStep, add, remove, duplicate, move, selectStep, updateTitle, updateDescription})
 export default class ScenarioEditorPage extends Component {
   static propTypes = {
     selectedStep: PropTypes.number,
@@ -27,7 +27,9 @@ export default class ScenarioEditorPage extends Component {
     remove: PropTypes.func,
     duplicate: PropTypes.func,
     move: PropTypes.func,
-    selectStep: PropTypes.func
+    selectStep: PropTypes.func,
+    updateTitle: PropTypes.func,
+    updateDescription: PropTypes.func
   }
   dialogChanged = (e) => {
     if (e.target.name === 'speaker_input') {
@@ -73,13 +75,19 @@ export default class ScenarioEditorPage extends Component {
     this.props.updateStep(this.props.selectedStep, this.props.steps[this.props.selectedStep]);
     this.forceUpdate();
   }
+  titleChanged = (e) => {
+    this.props.updateTitle(e.target.value);
+  }
+  descriptionChanged = (e) => {
+    this.props.updateDescription(e.target.value);
+  }
   render() {
     const curStep = this.props.steps[this.props.selectedStep];
     const curStepIndex = this.props.selectedStep;
     return (
       <div><div>
-        <div>Scenario Title: {this.props.title}</div>
-        <div>Description: {this.props.description}</div>
+        <div><label htmlFor="title_input">Scenario Title: </label> <input type="text" id="title_input" name="title_input" value={this.props.title} onChange={(e) => this.titleChanged(e)}/></div>
+        <div><label htmlFor="description_input">Description: </label> <input type="text" id="description_input" name="description_input" value={this.props.description} onChange={(e) => this.descriptionChanged(e)}/></div>
       </div>
       <div className={s.row}>
         <div className={s.six + ' ' + s.columns + ' ' + s.card + ' ' + s.steps}>

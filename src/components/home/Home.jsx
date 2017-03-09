@@ -22,6 +22,7 @@ export default class Home extends Component {
       <div className={s.container}>
         <h1 className={s.title + ' ' + s.textCenter}>Safe Steps</h1>
         <h2 className={s.lead + ' ' + s.textCenter}>Scenarios to demonstrate how to handle cases of domestic violence</h2>
+        <Link to={'/scenarioeditor'}>Add Scenario</Link>
         {this.props.scenarios.map((scenario) => {
           return (
             <div className={s.row + ' ' + s.card} key={scenario._id}>

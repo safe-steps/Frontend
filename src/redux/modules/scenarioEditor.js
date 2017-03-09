@@ -4,95 +4,22 @@ const DUPLICATE_STEP = 'scenarioEditor/DUPLICATE_STEP';
 const MOVE_STEP = 'scenarioEditor/MOVE_STEP';
 const UPDATE_STEP = 'scenarioEditor/UPDATE_STEP';
 const SELECT_STEP = 'scenarioEditor/SELECT_STEP';
+const UPDATE_TITLE = 'scenarioEditor/UPDATE_TITLE';
+const UPDATE_DESCRIPTION = 'scenarioEditor/UPDATE_DESCRIPTION';
 
 
 import clone from 'lodash';
 
 const initialState = {
   selectedStep: 0,
-  title: 'Test Scenario',
-  description: 'This Scenario is only for testing',
+  title: '',
+  description: '',
   steps: [
     {// 0
       type: 'dialog',
-      speaker: 'narrator',
+      speaker: '',
       goTo: 1,
-      text: 'Welcome to the Test Scenario! Please press next.'
-    },
-    {// 1
-      type: 'dialog',
-      speaker: 'doctor',
-      goTo: 2,
-      text: 'Question'
-    },
-    {// 2
-      type: 'choice',
-      choices: [
-        {
-          text: 'yes',
-          goTo: 3,
-          doneWell: 'Very Good',
-          canImprove: null
-        },
-        {
-          text: 'no',
-          goTo: 4,
-          doneWell: null,
-          canImprove: 'Not correct'
-        }
-      ]
-    },
-    {// 3
-      type: 'dialog',
-      speaker: 'doctor',
-      goTo: 5,
-      text: 'How are you?'
-    },
-    {// 4
-      type: 'dialog',
-      speaker: 'doctor',
-      goTo: 6,
-      text: 'Where are you from?'
-    },
-    {// 5
-      type: 'choice',
-      choices: [
-        {
-          text: 'Great!',
-          goTo: 7,
-          doneWell: null,
-          canImprove: 'No further explaination?'
-        },
-        {
-          text: 'Not doing to well.',
-          goTo: 7,
-          doneWell: 'Honest',
-          canImprove: null
-        }
-      ]
-    },
-    {// 6
-      type: 'choice',
-      choices: [
-        {
-          text: 'Atlanta',
-          goTo: 7,
-          doneWell: 'Love me some ATL',
-          canImprove: null
-        },
-        {
-          text: 'Nashvegas',
-          goTo: 7,
-          doneWell: null,
-          canImprove: 'But you are in ATL now?'
-        }
-      ]
-    },
-    {// 7
-      type: 'dialog',
-      speaker: 'narrator',
-      goTo: null,
-      text: 'Thank you for completing the Test Scenario!'
+      text: ''
     }
   ]
 };
@@ -237,6 +164,16 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         selectedStep: action.index
       };
+    case UPDATE_TITLE:
+      return {
+        ...state,
+        title: action.text
+      };
+    case UPDATE_DESCRIPTION:
+      return {
+        ...state,
+        description: action.text
+      };
     default:
       return state;
   }
@@ -284,5 +221,19 @@ export function selectStep(index) {
   return {
     type: SELECT_STEP,
     index
+  };
+}
+
+export function updateTitle(text) {
+  return {
+    type: UPDATE_TITLE,
+    text
+  };
+}
+
+export function updateDescription(text) {
+  return {
+    type: UPDATE_DESCRIPTION,
+    text
   };
 }
