@@ -4,7 +4,7 @@ import {reducer as reduxAsyncConnect} from 'redux-async-connect';
 import scenarioList from './scenarioList';
 import currentScenario from './currentScenario';
 import scenarioEditor from './scenarioEditor';
-import safetyPlan from './safetyplan';
+import safetyPlan from './safetyPlan';
 
 
 export default combineReducers({

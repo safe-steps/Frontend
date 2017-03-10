@@ -20,7 +20,7 @@ const initialState = {
     {// 0
       type: 'dialog',
       speaker: '',
-      goTo: 1,
+      goTo: 0,
       text: ''
     }
   ],

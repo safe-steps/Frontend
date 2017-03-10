@@ -30,7 +30,8 @@ export default class ScenarioEditorPage extends Component {
     move: PropTypes.func,
     selectStep: PropTypes.func,
     updateTitle: PropTypes.func,
-    updateDescription: PropTypes.func
+    updateDescription: PropTypes.func,
+    submitScenario: PropTypes.func
   }
   dialogChanged = (e) => {
     if (e.target.name === 'speaker_input') {
@@ -42,6 +43,11 @@ export default class ScenarioEditorPage extends Component {
       this.props.updateStep(this.props.selectedStep, {
         ...this.props.steps[this.props.selectedStep],
         text: e.target.value
+      });
+    }else if (e.target.name === 'go_to_input') {
+      this.props.updateStep(this.props.selectedStep, {
+        ...this.props.steps[this.props.selectedStep],
+        goTo: e.target.value
       });
     }
     this.forceUpdate();
@@ -90,12 +96,12 @@ export default class ScenarioEditorPage extends Component {
         <div className={s.two + ' ' + s.columns}><label htmlFor="title_input">Scenario Title</label> <input type="text" id="title_input" name="title_input" value={this.props.title} onChange={(e) => this.titleChanged(e)}/></div>
         <div className={s.four + ' ' + s.columns}><label htmlFor="description_input">Description</label> <input type="text" id="description_input" name="description_input" value={this.props.description} onChange={(e) => this.descriptionChanged(e)}/></div>
         <Link to={'/'} className={s.button} onClick={() => {
-            this.props.submitScenario({
-              title: this.props.title,
-              description: this.props.description,
-              steps: this.props.steps
-            })
-          }}>Submit Scenario</Link>
+          this.props.submitScenario({
+            title: this.props.title,
+            description: this.props.description,
+            steps: this.props.steps
+          });
+        }}>Submit Scenario</Link>
         <Link to={'/'} className={s.button}>Back to Home</Link>
       </div>
       <div className={s.row}>
@@ -148,6 +154,20 @@ export default class ScenarioEditorPage extends Component {
                 <h3 className={s.title}>Step {curStepIndex + 1}. Dialog</h3>
                 <div><label htmlFor="speaker_input">Speaker:</label> <input type="text" id="speaker_input" name="speaker_input" value={curStep.speaker} onChange={(e) => this.dialogChanged(e)}/></div>
                 <div><label htmlFor="text_input">Text:</label> <input type="text" id="text_input" name="text_input" value={curStep.text} onChange={(e) => this.dialogChanged(e)}/></div>
+                <div className={s.six + ' ' + s.columns}><label htmlFor="go_to_input">Go to this card:</label>
+                  <select id="go_to_input" name="go_to_input" value={curStep.goTo} onChange={(e) => this.dialogChanged(e)}>
+                    {this.props.steps.map((step, _index) => {
+                      if (step.type === 'dialog') {
+                        return (
+                          <option key={_index} value={_index}>Step {_index + 1}. {step.type} ({step.speaker})</option>
+                        );
+                      }
+                      return (
+                        <option key={_index} value={_index}>Step {_index + 1}. {step.type}</option>
+                      );
+                    })}
+                  </select>
+                </div>
               </div>
             );
           }
