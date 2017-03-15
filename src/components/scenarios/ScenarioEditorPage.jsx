@@ -157,7 +157,11 @@ export default class ScenarioEditorPage extends Component {
                 <div className={s.six + ' ' + s.columns}><label htmlFor="go_to_input">Go to this card:</label>
                   <select id="go_to_input" name="go_to_input" value={curStep.goTo} onChange={(e) => this.dialogChanged(e)}>
                     {this.props.steps.map((step, _index) => {
-                      if (step.type === 'dialog') {
+                      if (_index === 0) {
+                        return (
+                          <option key={_index} value={_index}>Finish Scenario</option>
+                        );
+                      }if (step.type === 'dialog') {
                         return (
                           <option key={_index} value={_index}>Step {_index + 1}. {step.type} ({step.speaker})</option>
                         );

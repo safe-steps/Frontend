@@ -34,11 +34,21 @@ export default function reducer(state = initialState, action = {}) {
       newState = clone(state).__wrapped__;
       newState.selectedStep = action.index + 1;
       if (action.stepType === 'dialog') {
-        newState.steps.splice(action.index + 1, 0, {
-          type: 'dialog',
-          speaker: 'narrator',
-          text: ''
-        });
+        if (action.index === state.steps.length - 1) {
+          newState.steps.splice(action.index + 1, 0, {
+            type: 'dialog',
+            speaker: '',
+            goTo: 0,
+            text: ''
+          });
+        } else {
+          newState.steps.splice(action.index + 1, 0, {
+            type: 'dialog',
+            speaker: '',
+            goTo: action.index,
+            text: ''
+          });
+        }
       }
       if (action.stepType === 'choice') {
         newState.steps.splice(action.index + 1, 0, {
@@ -50,8 +60,12 @@ export default function reducer(state = initialState, action = {}) {
           }]
         });
       }
-      newState.steps.forEach((step) => {
-        if (step.type === 'dialog' && step.goTo > action.index) {
+      newState.steps.forEach((step, index) => {
+        if (step.type === 'dialog' && index === state.steps.length - 2 && action.index === state.steps.length - 2) {
+          step.goTo++;
+        } else if (step.type === 'dialog' && index === action.index + 1 && action.index !== state.steps.length - 2) {
+          step.goTo += 2;
+        } else if (step.type === 'dialog' && step.goTo > action.index) {
           step.goTo++;
         } else if (step.type === 'choice') {
           step.choices.forEach((choice) => {
@@ -68,6 +82,9 @@ export default function reducer(state = initialState, action = {}) {
       };
     case DELETE_STEP:
       newState = clone(state).__wrapped__;
+      if (action.index === state.steps.length - 1) {
+        newState.steps[action.index - 1].goTo = 0;
+      }
       newState.steps.splice(action.index, 1);
       newState.steps.forEach((step) => {
         if (step.type === 'dialog' && step.goTo > action.index) {
