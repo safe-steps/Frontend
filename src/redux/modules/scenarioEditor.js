@@ -11,6 +11,7 @@ const SUBMIT_SUCCESS = 'scenarioEditor/SUBMIT_SUCCESS';
 const SUBMIT_FAIL = 'scenarioEditor/SUBMIT_FAIL';
 
 import clone from 'lodash';
+import cloneDeep from 'lodash';
 
 const initialState = {
   selectedStep: 0,
@@ -61,12 +62,14 @@ export default function reducer(state = initialState, action = {}) {
         });
       }
       newState.steps.forEach((step, index) => {
-        if (step.type === 'dialog' && index === state.steps.length - 2 && action.index === state.steps.length - 2) {
-          step.goTo++;
-        } else if (step.type === 'dialog' && index === action.index + 1 && action.index !== state.steps.length - 2) {
-          step.goTo += 2;
-        } else if (step.type === 'dialog' && step.goTo > action.index) {
-          step.goTo++;
+        if (step.type === 'dialog') {
+          if (index === state.steps.length - 2 && action.index === state.steps.length - 2) {
+            step.goTo = state.steps.length - 1;
+          } else if (index === action.index + 1 && action.index !== state.steps.length - 2) {
+            step.goTo += 2;
+          } else if (step.goTo > action.index) {
+            step.goTo++;
+          }
         } else if (step.type === 'choice') {
           step.choices.forEach((choice) => {
             if (choice.goTo > action.index) {
@@ -85,6 +88,9 @@ export default function reducer(state = initialState, action = {}) {
       if (action.index === state.steps.length - 1) {
         newState.steps[action.index - 1].goTo = 0;
       }
+      if (action.index === state.steps.length - 1) {
+        newState.selectedStep = action.index - 1;
+      }
       newState.steps.splice(action.index, 1);
       newState.steps.forEach((step) => {
         if (step.type === 'dialog' && step.goTo > action.index) {
@@ -102,14 +108,19 @@ export default function reducer(state = initialState, action = {}) {
         steps: newState.steps
       };
     case DUPLICATE_STEP:
-      newState = clone(state).__wrapped__;
+      newState = cloneDeep(state).__wrapped__;
+      console.log(cloneDeep(state));
       newState.selectedStep = action.index + 1;
       newState.steps.splice(action.index + 1, 0, {
         ...newState.steps[action.index]
       });
-      newState.steps.forEach((step) => {
-        if (step.type === 'dialog' && step.goTo > action.index) {
-          step.goTo++;
+      newState.steps.forEach((step, index) => {
+        if (step.type === 'dialog') {
+          if (step.goTo > action.index) {
+            step.goTo++;
+          } else if (index === action.index && step.goTo === 0) {
+            step.goTo++;
+          }
         } else if (step.type === 'choice') {
           step.choices.forEach((choice) => {
             if (choice.goTo > action.index) {

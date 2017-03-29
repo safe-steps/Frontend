@@ -154,7 +154,7 @@ export default class ScenarioEditorPage extends Component {
                 <h3 className={s.title}>Step {curStepIndex + 1}. Dialog</h3>
                 <div><label htmlFor="speaker_input">Speaker:</label> <input type="text" id="speaker_input" name="speaker_input" value={curStep.speaker} onChange={(e) => this.dialogChanged(e)}/></div>
                 <div><label htmlFor="text_input">Text:</label> <input type="text" id="text_input" name="text_input" value={curStep.text} onChange={(e) => this.dialogChanged(e)}/></div>
-                <div className={s.six + ' ' + s.columns}><label htmlFor="go_to_input">Go to this card:</label>
+                <div><label htmlFor="go_to_input">Go to this card:</label>
                   <select id="go_to_input" name="go_to_input" value={curStep.goTo} onChange={(e) => this.dialogChanged(e)}>
                     {this.props.steps.map((step, _index) => {
                       if (_index === 0) {
