@@ -10,8 +10,8 @@ const SUBMIT = 'scenarioEditor/SUBMIT';
 const SUBMIT_SUCCESS = 'scenarioEditor/SUBMIT_SUCCESS';
 const SUBMIT_FAIL = 'scenarioEditor/SUBMIT_FAIL';
 
-import clone from 'lodash';
-import cloneDeep from 'lodash';
+import {clone} from 'lodash';
+import {cloneDeep} from 'lodash';
 
 const initialState = {
   selectedStep: 0,
@@ -32,7 +32,7 @@ export default function reducer(state = initialState, action = {}) {
   let newState;
   switch (action.type) {
     case ADD_STEP_TYPE:
-      newState = clone(state).__wrapped__;
+      newState = clone(state);
       newState.selectedStep = action.index + 1;
       if (action.stepType === 'dialog') {
         if (action.index === state.steps.length - 1) {
@@ -84,7 +84,7 @@ export default function reducer(state = initialState, action = {}) {
         steps: newState.steps
       };
     case DELETE_STEP:
-      newState = clone(state).__wrapped__;
+      newState = clone(state);
       if (action.index === state.steps.length - 1) {
         newState.steps[action.index - 1].goTo = 0;
       }
@@ -108,12 +108,12 @@ export default function reducer(state = initialState, action = {}) {
         steps: newState.steps
       };
     case DUPLICATE_STEP:
-      newState = cloneDeep(state).__wrapped__;
+      newState = cloneDeep(state);
       console.log(cloneDeep(state));
       newState.selectedStep = action.index + 1;
-      newState.steps.splice(action.index + 1, 0, {
-        ...newState.steps[action.index]
-      });
+      newState.steps.splice(action.index + 1, 0, cloneDeep(newState.steps[action.index]));
+      console.log(newState.steps);
+      console.log(newState.steps[1] === newState.steps[2]);
       newState.steps.forEach((step, index) => {
         if (step.type === 'dialog') {
           if (step.goTo > action.index) {
@@ -135,7 +135,7 @@ export default function reducer(state = initialState, action = {}) {
         steps: newState.steps
       };
     case MOVE_STEP:
-      newState = clone(state).__wrapped__;
+      newState = clone(state);
       if (action.upDown === 'up') {
         newState.selectedStep = action.index - 1;
         const temp = newState.steps[action.index];
@@ -184,7 +184,7 @@ export default function reducer(state = initialState, action = {}) {
         steps: newState.steps
       };
     case UPDATE_STEP:
-      newState = clone(state).__wrapped__;
+      newState = clone(state);
       newState.steps[action.index] = action.obj;
       return {
         ...state,
