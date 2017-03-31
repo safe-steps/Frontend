@@ -15,40 +15,50 @@ export default class SafetyPlan extends Component {
     argumentLocations: PropTypes.string,
     codeword: PropTypes.string,
     updatePlan: PropTypes.func,
-    submitPlan: PropTypes.func
+    submitPlan: PropTypes.func,
+    email: PropTypes.string
   }
   planChanged = (e) => {
-    if (e.target.name === 'escapeRoutes_input') {
+    // TODO: This is not a very scalable way to build a form. Consider using a dynamic render and update based on a single Object literal.
+    if (e.target.name === 'email_input') {
+      this.props.updatePlan({
+        ...this.props,
+        email: e.target.value
+      });
+    } else if (e.target.name === 'escapeRoutes_input') {
       this.props.updatePlan({
         ...this.props,
         escapeRoutes: e.target.value
       });
-    }else if (e.target.name === 'itemsToCollect_input') {
+    } else if (e.target.name === 'itemsToCollect_input') {
       this.props.updatePlan({
         ...this.props,
         itemsToCollect: e.target.value
       });
-    }else if (e.target.name === 'locationsAndContacts_input') {
+    } else if (e.target.name === 'locationsAndContacts_input') {
       this.props.updatePlan({
         ...this.props,
         locationsAndContacts: e.target.value
       });
-    }else if (e.target.name === 'argumentLocations_input') {
+    } else if (e.target.name === 'argumentLocations_input') {
       this.props.updatePlan({
         ...this.props,
         argumentLocations: e.target.value
       });
-    }else if (e.target.name === 'codeword_input') {
+    } else if (e.target.name === 'codeword_input') {
       this.props.updatePlan({
         ...this.props,
         codeword: e.target.value
       });
     }
-    this.forceUpdate();
   }
   render() {
     return (
       <div>
+        <div>
+          <label htmlFor="email_input">Patient Email</label>
+          <input type="text" id="email_input" name="email_input" value={this.props.email} onChange={(e) => this.planChanged(e)}/>
+        </div>
         <div><label htmlFor="escapeRoutes_input">Escape routes & methods to reach safety (e.g. doors, windows, or  fire escapes)</label> <input type="text" id="escapeRoutes_input" name="escapeRoutes_input" value={this.props.escapeRoutes} onChange={(e) => this.planChanged(e)}/></div>
         <div><label htmlFor="itemsToCollect_input">Items to collect and take with them upon leaving (e.g. purse, car keys, documents)</label> <input type="text" id="itemsToCollect_input" name="itemsToCollect_input" value={this.props.itemsToCollect} onChange={(e) => this.planChanged(e)}/></div>
         <div><label htmlFor="locationsAndContacts_input">Locations and contacts to go to in case of emergency (e.g. family, friend)</label> <input type="text" id="locationsAndContacts_input" name="locationsAndContacts_input" value={this.props.locationsAndContacts} onChange={(e) => this.planChanged(e)}/></div>
@@ -56,6 +66,7 @@ export default class SafetyPlan extends Component {
         <div><label htmlFor="codeword_input">A codeword for their children, friends, and trusted ones to know when to call for help</label> <input type="text" id="codeword_input" name="codeword_input" value={this.props.codeword} onChange={(e) => this.planChanged(e)}/></div>
       <Link to={'/'} className={s.button} onClick={() => {
         this.props.submitPlan({
+          email: this.props.email,
           escapeRoutes: this.props.escapeRoutes,
           itemsToCollect: this.props.itemsToCollect,
           locationsAndContacts: this.props.locationsAndContacts,

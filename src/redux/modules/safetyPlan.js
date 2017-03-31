@@ -6,6 +6,7 @@ const SUBMIT_PLAN_FAIL = 'scenarioEditor/SUBMIT_PLAN_FAIL';
 // import clone from 'lodash';
 
 const initialState = {
+  email: '',
   escapeRoutes: '',
   itemsToCollect: '',
   locationsAndContacts: '',
@@ -49,7 +50,7 @@ export function submitPlan(json) {
   console.log(json);
   return {
     types: [SUBMIT_PLAN, SUBMIT_PLAN_SUCCESS, SUBMIT_PLAN_FAIL],
-    promise: (client) => client.post('/safetyPlan', {
+    promise: (client) => client.post('/safetyplan', {
       data: json
     })
   };

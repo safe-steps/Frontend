@@ -16,6 +16,11 @@ const routes = [
     handler: require('./serverHandlers/submitScenario.handler.js')
   },
   {
+    method: 'post',
+    path: '/api/safetyplan',
+    handler: require('./serverHandlers/safetyPlan.handler.js')
+  },
+  {
     method: 'get',
     path: '/*',
     handler: require('./serverHandlers/render.handler.js')
