@@ -137,3 +137,29 @@ h5 {
 		margin-right: 1rem;
 	}
 }
+
+// training module
+
+.training {
+
+	li {
+		list-style-position: outside;
+		margin-left: 2rem;
+	}
+
+	.purple {
+		color: $purple;
+	}
+
+	.indent {
+		margin-left: 2rem;
+	}
+
+	.signs {
+		font-size: 0.8em;
+
+		p, li {
+			margin-bottom: 0;
+		}
+	}
+}

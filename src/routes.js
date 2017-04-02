@@ -7,6 +7,7 @@ import ScenarioList from './components/scenarios/ScenarioList.jsx';
 import ScenarioPage from './components/scenarios/ScenarioPage.jsx';
 import ScenarioEditorPage from './components/scenarios/ScenarioEditorPage.jsx';
 import SafetyPlan from './components/safetyPlan/SafetyPlan.jsx';
+import Training from './components/Training/Training.jsx';
 
 export default () => {
   return (
@@ -20,6 +21,7 @@ export default () => {
       <Route path="/scenarios/:id" component={ScenarioPage}/>
       <Route path="/scenarioeditor" component={ScenarioEditorPage}/>
       <Route path="/safetyplan" component={SafetyPlan}/>
+      <Route path="/training" component={Training}/>
 
       { /* Catch all route */ }
       { /* <Route path="*" component={NotFound} status={404} /> */ }
