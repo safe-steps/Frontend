@@ -4,6 +4,7 @@ import s from 'components/styles/index.scss';
 import {connect} from 'react-redux';
 import {goToNext, chooseChoice, getScenario} from 'redux/modules/currentScenario.js';
 import {Link} from 'react-router';
+import ScenarioImage from './ScenarioImage.jsx';
 
 @asyncConnect([{
   promise: ({store: {dispatch}, params: {id}}) => {
@@ -24,7 +25,9 @@ export default class ScenarioPage extends Component {
       goTo: PropTypes.number,
       text: PropTypes.string,
       choices: PropTypes.array,
-      speaker: PropTypes.string
+      speaker: PropTypes.string,
+      location: PropTypes.string,
+      person: PropTypes.string
     }),
     goToNext: PropTypes.func,
     chooseChoice: PropTypes.func
@@ -78,7 +81,7 @@ export default class ScenarioPage extends Component {
     } else if (this.props.currentStep.type === 'dialog') {
       return (
         <div className={s.container}>
-          <img src="http://placehold.it/1024x600" className={s.scene}></img>
+          <ScenarioImage location={this.props.currentStep.location} person={this.props.currentStep.person} />
           <p className={s.title + ' ' + s.lead}>{this.props.currentStep.speaker}</p>
           <p>{this.props.currentStep.text}</p>
           <button type="button" onClick={this.props.goToNext}>Next</button>
@@ -87,7 +90,7 @@ export default class ScenarioPage extends Component {
     } else if (this.props.currentStep.type === 'choice') {
       return (
         <div className={s.container}>
-          <img src="http://placehold.it/1024x600" className={s.scene}></img>
+          <ScenarioImage location={this.props.currentStep.location} person={this.props.currentStep.person} />
           <div className={s.choices}>
             {this.props.currentStep.choices.map((choice, index) => {
               return (

@@ -22,7 +22,9 @@ const initialState = {
       type: 'dialog',
       speaker: '',
       goTo: 0,
-      text: ''
+      text: '',
+      location: 'Nothing.jpg',
+      person: 'Nobody.png'
     }
   ],
   submitting: false
@@ -40,20 +42,26 @@ export default function reducer(state = initialState, action = {}) {
             type: 'dialog',
             speaker: '',
             goTo: 0,
-            text: ''
+            text: '',
+            location: 'Blank.jpg',
+            person: 'Nobody.png'
           });
         } else {
           newState.steps.splice(action.index + 1, 0, {
             type: 'dialog',
             speaker: '',
             goTo: action.index,
-            text: ''
+            text: '',
+            location: 'Blank.jpg',
+            person: 'Nobody.png'
           });
         }
       }
       if (action.stepType === 'choice') {
         newState.steps.splice(action.index + 1, 0, {
           type: 'choice',
+          location: 'Blank.jpg',
+          person: 'Nobody.png',
           choices: [{
             text: '',
             canImprove: '',
@@ -109,11 +117,8 @@ export default function reducer(state = initialState, action = {}) {
       };
     case DUPLICATE_STEP:
       newState = cloneDeep(state);
-      console.log(cloneDeep(state));
       newState.selectedStep = action.index + 1;
       newState.steps.splice(action.index + 1, 0, cloneDeep(newState.steps[action.index]));
-      console.log(newState.steps);
-      console.log(newState.steps[1] === newState.steps[2]);
       newState.steps.forEach((step, index) => {
         if (step.type === 'dialog') {
           if (step.goTo > action.index) {

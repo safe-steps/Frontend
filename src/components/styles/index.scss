@@ -9,12 +9,6 @@ body {
   background-color: $grey-lightest;
 }
 
-img {
-	display: block;
-	width: 100%;
-	height: auto;
-}
-
 // typography
 
 .lead {
@@ -43,11 +37,13 @@ h5 {
 }
 
 // layout
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
 
 .container {
 	background-color: $white;
-	border: 1px solid $grey-light;
-	box-shadow: 0 2px 3px 0 rgba(0,0,0,0.05);
 	padding: 2rem;
 }
 
@@ -60,9 +56,8 @@ h5 {
 
 .titlebar {
 	background-color: $white;
-	border: 1px solid $grey-light;
 	box-shadow: 0 2px 3px 0 rgba(0,0,0,0.05);
-	padding: 0 2rem;
+	padding: 1rem 2rem 0 2rem;
 
 	input {
 		width: 100%;
@@ -125,8 +120,24 @@ h5 {
 
 // scenario screens
 
-.scene {
+.scenarioImage {
 	margin-bottom: 2rem;
+  width: 100%;
+  display: block;
+	height: 60vh;
+  position: relative;
+
+  .location {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .person {
+    position: absolute;
+    bottom: 0;
+    left: 40%;
+    width: 50%;
+  }
 }
 
 .choices {
@@ -162,4 +173,67 @@ h5 {
 			margin-bottom: 0;
 		}
 	}
+}
+
+// header
+.header {
+  height: 70px;
+  background-color: $white;
+  z-index: 50;
+  border-bottom: 1px solid $grey-light;
+  display: flex;
+  justify-content: center;
+}
+
+.listImg {
+  display: block;
+	width: 100%;
+	height: auto;
+}
+
+// home
+.home {
+  position: relative;
+
+  .homeSubject {
+    display: flex;
+
+    .homeSubjectText {
+      background-color: $cyan;
+      color: $white;
+      padding: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: column;
+      height: 300px;
+      width: 50vw;
+      box-sizing: border-box;
+    }
+
+    .homeSubjectImage {
+      height: 300px;
+      width: 50vw;
+      object-fit: cover;
+    }
+
+    @media (max-width: 600px) {
+      .homeSubjectImage, .homeSubjectText {
+        width: 100vw;
+      }
+    }
+  }
+
+  .odd {
+    flex-direction: row;
+  }
+  .even{
+    flex-direction: row-reverse;;
+  }
+
+  @media (max-width: 600px) {
+    .even, .odd{
+      flex-direction: column-reverse;;
+    }
+  }
 }

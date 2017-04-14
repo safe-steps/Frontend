@@ -166,9 +166,10 @@ export default class Training extends Component {
         </div>
         <div id="links">
         	<p>You have reached the end of the SafeSteps training portion. Next, explore the scenarios to apply your knowledge and practice responding.</p>
-        	<div className={s.row}>
-        		<Link to={'/safetyplan'} className={s.button + ' ' + s.primary + ' ' + s.six + ' ' + s.columns}>Create Safety Plans</Link>
-        		<Link to={'/scenariolist'} className={s.button + ' ' + s.primary + ' ' + s.six + ' ' + s.columns}>Practice Scenarios</Link>
+        	<div className={s['flex-col']}>
+            <Link to={'/'} className={s.button + ' ' + s.primary}>Back Home</Link>
+        		<Link to={'/safetyplan'} className={s.button + ' ' + s.primary}>Create Safety Plans</Link>
+        		<Link to={'/scenariolist'} className={s.button + ' ' + s.primary}>Practice Scenarios</Link>
         	</div>
         </div>
       </div>

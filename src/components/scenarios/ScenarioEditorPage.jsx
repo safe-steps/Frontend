@@ -3,6 +3,8 @@ import s from 'components/styles/index.scss';
 import {connect} from 'react-redux';
 import {updateStep, add, remove, duplicate, move, selectStep, updateTitle, updateDescription, submitScenario} from 'redux/modules/scenarioEditor.js';
 import {Link} from 'react-router';
+import locations from './locationInfo';
+import people from './personInfo';
 
 @connect(state => ({
   ...state.scenarioEditor
@@ -21,7 +23,9 @@ export default class ScenarioEditorPage extends Component {
       type: PropTypes.string,
       goTo: PropTypes.number,
       text: PropTypes.string,
-      choices: PropTypes.array
+      choices: PropTypes.array,
+      location: PropTypes.string,
+      person: PropTypes.string
     }),
     updateStep: PropTypes.func,
     add: PropTypes.func,
@@ -49,6 +53,16 @@ export default class ScenarioEditorPage extends Component {
         ...this.props.steps[this.props.selectedStep],
         goTo: e.target.value
       });
+    }else if (e.target.name === 'location_input') {
+      this.props.updateStep(this.props.selectedStep, {
+        ...this.props.steps[this.props.selectedStep],
+        location: e.target.value
+      });
+    }else if (e.target.name === 'person_input') {
+      this.props.updateStep(this.props.selectedStep, {
+        ...this.props.steps[this.props.selectedStep],
+        person: e.target.value
+      });
     }
     this.forceUpdate();
   }
@@ -65,6 +79,16 @@ export default class ScenarioEditorPage extends Component {
     }else if (e.target.name === 'done_input') {
       this.props.steps[this.props.selectedStep].choices[index].doneWell = e.target.value;
       this.props.updateStep(this.props.selectedStep, this.props.steps[this.props.selectedStep]);
+    }else if (e.target.name === 'location_input') {
+      this.props.updateStep(this.props.selectedStep, {
+        ...this.props.steps[this.props.selectedStep],
+        location: e.target.value
+      });
+    }else if (e.target.name === 'person_input') {
+      this.props.updateStep(this.props.selectedStep, {
+        ...this.props.steps[this.props.selectedStep],
+        person: e.target.value
+      });
     }
     this.forceUpdate();
   }
@@ -152,6 +176,22 @@ export default class ScenarioEditorPage extends Component {
             return (
               <div className={s.editor}>
                 <h3 className={s.title}>Step {curStepIndex + 1}. Dialog</h3>
+                <div>
+                  <label htmlFor="location_input">Location:</label>
+                  <select value={curStep.location} name="location_input" onChange={(e) => this.dialogChanged(e)}>
+                    {locations.map((location) => {
+                      return (<option value={location.path}>{location.name}</option>);
+                    })}
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="person_input">Person:</label>
+                  <select value={curStep.person} name="person_input" onChange={(e) => this.dialogChanged(e)}>
+                    {people.map((person) => {
+                      return (<option value={person.path}>{person.name}</option>);
+                    })}
+                  </select>
+                </div>
                 <div><label htmlFor="speaker_input">Speaker:</label> <input type="text" id="speaker_input" name="speaker_input" value={curStep.speaker} onChange={(e) => this.dialogChanged(e)}/></div>
                 <div><label htmlFor="text_input">Text:</label> <input type="text" id="text_input" name="text_input" value={curStep.text} onChange={(e) => this.dialogChanged(e)}/></div>
                 <div><label htmlFor="go_to_input">Go to this card:</label>
@@ -178,6 +218,22 @@ export default class ScenarioEditorPage extends Component {
           return (
             <div className={s.editor}>
               <h3 className={s.title}>Step {curStepIndex}. Choice</h3>
+              <div>
+                <label htmlFor="location_input">Location:</label>
+                <select value={curStep.location} name="location_input" onChange={(e) => this.choiceChanged(e)}>
+                  {locations.map((location) => {
+                    return (<option value={location.path}>{location.name}</option>);
+                  })}
+                </select>
+              </div>
+              <div>
+                <label htmlFor="person_input">Person:</label>
+                <select value={curStep.person} name="person_input" onChange={(e) => this.choiceChanged(e)}>
+                  {people.map((person) => {
+                    return (<option value={person.path}>{person.name}</option>);
+                  })}
+                </select>
+              </div>
               <ul>
                 {curStep.choices.map((choice, index) => {
                   return (
