@@ -120,6 +120,54 @@ export default class Training extends Component {
         	</div>
         </div>
         <hr></hr>
+        <div id="empathize">
+        	<h2><span className={s.purple}>E</span>mpathize</h2>
+        	<p><b>Empathy</b> is understanding and sharing the feelings of another.</p>
+        	<p>In many cases of domestic violence, you may be the first person to show concern or care for a victim. Therefore, it is essential that your response has a positive impact and not a negative one. As you realize that someone has been  a victim of domestic violence, you may begin to wonder why they stay with the abusive partner, or why they have not said anything about it. Be careful with these attitudes-- a judgmental tone will come through when you speak with the individual and may discourage the person from sharing any further details. It is important to realize that victims stay in abusive relationships for a variety of reasons, including fear, financial reasons, love, or simply because they do not know where to go. </p>
+        	<ul>
+        		<li><b>Listen</b> attentively. Make sure your body language indicates that you are listening, so that you appear engaged while the individual is speaking.</li>
+        		<li>Make eye contact, but <b>avoid physical contact</b>. These individuals may not respond well to unwelcome touch, and they may avert their eyes, but is important to show that you are focused on them and they are being heard. </li>
+        		<li>Be careful not to take on an overprotective or patronizing tone. Your goal is to <b>empower the victim</b>, and make them feel that they are in control.</li>
+        		<li>Prepare yourself for a range of different responses and emotions, including crying, angry outbursts, or yelling. <b>Remain calm</b>, supportive, and patient, allowing the individual to express whatever emotions they might be feeling.</li>
+        		<li>Use case-specific language when responding to their comments. For example, if a woman tells you she has children and that she does not want to break up the family, you might say: <i>“You said you have children. Are you worried for their safety? Do you know of a safe place you could go with them?”</i></li>
+        	</ul>
+        	<p>Essentially, empathy is about listening. The more closely you listen, the more information you will be able to gain about the situation, and the more helpful you will be able to be. While you may not convince a victim to leave immediately, your genuine response might be the beginning of a decision to get out of the situation.</p>
+        </div>
+        <hr></hr>
+        <div id="ask">
+        	<h2><span className={s.purple}>A</span>sk</h2>
+        	<p>A common misconception is that domestic violence is a private or personal matter, and so it is not appropriate to ask someone about it. However, asking is the most important step in responding to these situations. You <b>must</b> ask, and ask multiple times and multiple ways. With any other injury, scenario, or patient, you would not hesitate to take action, no matter how uncomfortable or unusual. A domestic violence case has the same legitimacy, so you have the same right to ask about it.</p>
+        	<p>Asking the right questions to recognize the issue is what enables you to respond effectively. Here are some things to keep in mind:
+</p>
+        	<ul>
+        		<li><b>Tone</b>: avoid judgment, and show genuine concern. Your tone will either encourage someone to share more or it will cause them to share less.</li>
+        		<li><b>Specificity</b>: vague questions get vague answers. Bring up specific questions and concerns that you have related to the warning signs you notice. . </li>
+        		<li><b>Patience</b>: a victim may not admit their abuse immediately, so give them time.</li>
+        		<li><b>Affirm</b>: should they admit to being abused, let them know you believe them. Reinforce that their concerns are valid, and that you are there to help.</li>
+        		<li><b>Repeat</b>: a victim may deny abuse, or you may suspect that they are not being truthful. Keep asking. Even if they don’t admit it, you have made them think about their situation. </li>
+
+        	</ul>
+        	<p>It is also important to consider the style of your questions. Avoid leading questions, or questions that may imply the victim is at fault. </p>
+        	<div className={s.row}>
+        		<div className={s.signs + ' ' + s.row + ' ' + s.six + ' ' + s.columns}>
+        			<p><b>Do Say:</b></p>
+        			<ul>
+        				<li>Do you feel safe at home?</li>
+        				<li>Have you considered leaving? </li>
+        				<li>Can you tell me what happened?</li>
+        			</ul>
+        		</div>
+        		<div className={s.signs + ' ' + s.row + ' ' + s.six + ' ' + s.columns}>
+        			<p><b>Don't Say:</b></p>
+        			<ul>
+        				<li>You feel safe at home, right?</li>
+        				<li>Why haven’t you left?</li>
+        				<li>Did you do something to provoke him? </li>
+        			</ul>
+        		</div>
+        	</div>
+        </div>
+        <hr></hr>
         <div id="share">
         	<h2><span className={s.purple}>S</span>hare the resources</h2>
         	<p>Once you have determined that someone is a  victim of domestic violence, your next step is to provide them with the support and information they need to move forward.</p>
