@@ -70,12 +70,14 @@ h5 {
 }
 
 .steps {
-	height: 100%;
-	min-width: 550px;
-	position: fixed;
-	overflow: scroll;
-	background-color: $grey-light;
-	box-shadow: 0 2px 3px 0 rgba(0,0,0,0.05);
+  min-width: 550px;
+  position: fixed;
+  overflow-x: scroll;
+  background-color: $grey-light;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.05);
+  width: 30%;
+  bottom: 0px;
+  top: 164px;
 
 	.card {
 		padding: 2rem;

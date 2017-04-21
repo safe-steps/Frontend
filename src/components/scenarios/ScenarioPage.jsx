@@ -68,7 +68,7 @@ export default class ScenarioPage extends Component {
             </div>
           </div>
           <div className={s.choices}>
-            <Link to={'/'} className={s.button + ' ' + s['button-primary']}>Back to Main Screen</Link>
+            <Link to={'/scenariolist'} className={s.button + ' ' + s['button-primary']}>Back to Scenarios</Link>
           </div>
         </div>
       );
